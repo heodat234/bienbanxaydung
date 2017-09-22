@@ -13,36 +13,28 @@
         <div class="row">
           <div class="col-md-12">
             <div class="card">
+              <div style="text-align: center;"><h3><?php echo $ten_bieumau ?></h3></div>
               <div class="card-body">
                 <table class="table table-hover table-bordered" id="sampleTable">
                   <thead>
                     <tr>
-                      
                       <th>Tên vùng dữ liệu</th>
                       <th>Loại dữ liệu</th>
-                      <th>Vị trí xuất Excel</th>
-                      <th>Nhập</th>
+                      <th>Vị trí xuất Excel (cột:hàng)</th>
+                    
                     </tr>
                   </thead>
                   <tbody>
-                    <!-- <?php
-                      foreach ($bieumaus as $bieumau) {
-                        echo '
+                    <?php
+                      foreach ($dulieu as $dl) { ?>
                         <tr>
-                         
-                          <td>'.$bieumau->ten.'</td>
-                          <td>'.$bieumau->file.'</td>
-                          <td>'.$bieumau->dulieu.'</td>
-                          <td><a class="btn btn-primary btn-flat" href="#"><i class="fa fa-lg fa-pencil"></i></a></td>
+                          <td><?php echo $dl['ten'] ?></td>
+                          <td><?php echo $dl['loai'] ?></td>
+                          <td>(<?php echo $dl['cot'].':'.$dl['hang'] ?>)</td>
                         </tr>
-                        ';
-                      }
-                    ?> -->
+                      <?php } ?>
                   </tbody>
                 </table>
-
-                <?php  echo $dulieu[1][3][1]; ?>
-
                
               </div>
             </div>

@@ -19,8 +19,10 @@ class Bieumau_model extends CI_Model{
      }
     public function select_dulieu_id($id='')
     {
-        $this->db->select('dulieu')->where('id',$id); 
+        $this->db->select('ten,dulieu')->where('id',$id); 
         $query=$this->db->get("bieumau"); 
-        return $query->result_array();
+        return $query->first_row();
+
     }
+    
 }
