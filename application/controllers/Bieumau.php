@@ -1,0 +1,120 @@
+<?php
+defined('BASEPATH') OR exit('No direct script access allowed');
+
+class Bieumau extends CI_Controller {
+
+	public function __construct() {
+        parent::__construct();
+        $this->load->helper('url');
+        $this->load->library('session');
+        $this->load->helper(array('form', 'url'));
+		$this->load->library(array('form_validation','session'));
+		$this->load->helper('security');
+		$this->load->library("excel");
+		$this->load->model(array('Bieumau_model'));
+        $this->_data['html_header'] = $this->load->view('home/header', NULL, TRUE);  
+        $this->_data['html_menu'] = $this->load->view('home/menu', NULL, TRUE);
+    }
+    private $b_Check = false;
+    public $_data = array();
+
+
+    public function list_bieumau()
+	{
+		$id = $this->session->userdata('user')['id'];
+		$this->data['bieumaus'] = $this->Bieumau_model->select_bieumau($id); 
+		$this->_data['html_body'] = $this->load->view('page/list_bieumau', $this->data, TRUE); 
+
+		$this->load->view('home/master', $this->_data);
+	}
+
+	public function chitiet_bieumau($id_bieumau)
+	{
+		$dulieu = $this->Bieumau_model->select_dulieu_id($id_bieumau);
+		$data['dulieu'] = unserialize($dulieu[0]['dulieu']);
+		// echo "<pre>";
+		// print_r($dulieu);
+		// echo "</pre>";
+		$this->_data['html_body'] = $this->load->view('page/chitiet_bieumau',$data , TRUE); 
+
+		$this->load->view('home/master', $this->_data);
+	}
+	public function them_bieumau()
+	{
+		$this->_data['html_body'] = $this->load->view('page/them_bieumau', NULL, TRUE);  
+		$this->load->view('home/master', $this->_data);
+	}
+	public function them()
+	{
+		$this->form_validation->set_rules('ten', 'Tên biểu mẫu', 'trim|required|xss_clean');
+		// $this->form_validation->set_rules('file', 'File mẫu ', 'required');
+
+		if($this->form_validation->run() == TRUE){
+			$a_data['ten'] = $this->input->post('ten');
+			$a_data['id_user'] = $this->session->userdata('user')['id'];
+			$a_data['mota'] = $this->input->post('mota');
+
+			if (!empty($_FILES['file']['name'])) {
+			$config['upload_path'] = './template/';
+			$config['allowed_types'] = 'xlsx';
+			$config['file_name'] = $_FILES['file']['name'];
+			$this->load->library('upload', $config);
+			$this->upload->initialize($config);
+				if ($this->upload->do_upload('file')) {
+					$uploadData = $this->upload->data();
+					$a_data["file"] = $uploadData['file_name'];
+				} else{
+					$error = $this->upload->display_errors();
+            echo $error;
+					$a_data["file"] = '';
+				}
+			}else{
+				$a_data["file"] = '';
+			}
+
+			$data = $this->readExcel($a_data["file"]);
+			$a_data['dulieu'] = serialize($data);
+			$this->Bieumau_model->insert_bieumau($a_data);
+			redirect(base_url('list_bieumau'));
+		}
+		$this->_data['html_body'] = $this->load->view('page/them_bieumau', NULL, TRUE);  
+		$_data['b_Check']= $this->b_Check;
+		$this->load->view('home/master', $this->_data);
+	}
+
+
+	function readExcel($filename)
+    {
+        $object = new PHPExcel();
+        $objReader = PHPExcel_IOFactory::createReader('Excel2007');
+        $objPHPExcel = $objReader->load('template/'.$filename.'');
+
+        $objWorksheet  = $objPHPExcel->setActiveSheetIndex(0);
+        $highestRow    = $objWorksheet->getHighestRow();
+        $highestColumn = $objWorksheet->getHighestColumn();
+        $highestColumnIndex = PHPExcel_Cell::columnIndexFromString($highestColumn);
+        $arraydata = array();
+        $array = array();
+        $data = array();
+        for ($row = 2; $row <= $highestRow;++$row)
+        {
+            for ($col = 0; $col <$highestColumnIndex-1;++$col)
+            {
+                $value=$objWorksheet->getCellByColumnAndRow($col, $row)->getValue();
+                $value = trim($value,'( )');
+                if (substr($value, 0,4) == "vung") {    //tim nhung chuoi co chu vung
+                    // echo $value."<br>";
+                    $arraydata[$col][$row] = explode(' ', $value);//explode: chuyen chuoi thanh mang
+                }else{
+                    $array[$row][$col] = $value;
+                }
+                $data[$row][$col] = $value;
+            }
+        }
+        
+        //$data['title'] = $array;
+        // echo $data['content'] = $arraydata;
+        return $arraydata;
+        
+    }
+}	
