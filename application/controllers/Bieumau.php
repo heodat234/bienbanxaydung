@@ -147,28 +147,6 @@ class Bieumau extends CI_Controller {
 		$this->Bieumau_model->update_bieumau($id,$a_data);
 
 		echo json_encode($this->Bieumau_model->get_bieumau($id));
-       
-        return $array;
-    }
-
-    public function select_dulieu()
-    {
-    	$id    = $this->input->post('id');
-    	$dulieu = $this->Bieumau_model->select_dulieu_id($id);
-    	$dulieu = unserialize($dulieu->dulieu);
-    	$dulieu = json_encode($dulieu);
-    	print_r( $dulieu);
-        return $array;
-    }
-
-    public function select_dulieu()
-    {
-    	$id    = $this->input->post('id');
-    	$dulieu = $this->Bieumau_model->select_dulieu_id($id);
-    	$dulieu = unserialize($dulieu->dulieu);
-    	$dulieu = json_encode($dulieu);
-    	print_r( $dulieu);
-        return $array;
     }
 
     public function select_dulieu()
