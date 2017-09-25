@@ -168,5 +168,15 @@ class Bieumau extends CI_Controller {
     	$dulieu = unserialize($dulieu->dulieu);
     	$dulieu = json_encode($dulieu);
     	print_r( $dulieu);
+        return $array;
+    }
+
+    public function select_dulieu()
+    {
+    	$id    = $this->input->post('id');
+    	$dulieu = $this->Bieumau_model->select_dulieu_id($id);
+    	$dulieu = unserialize($dulieu->dulieu);
+    	$dulieu = json_encode($dulieu);
+    	print_r( $dulieu);
     }
 }	

@@ -60,6 +60,7 @@ $route['list_bieumau'] 		= "Bieumau/list_bieumau";
 $route['chitiet_bieumau/(:num)'] 		= "Bieumau/chitiet_bieumau/$1";
 $route['them_bieumau'] 		= "Bieumau/them_bieumau";
 $route['them'] 		= "Bieumau/them";
+$route['them'] 		        = "Bieumau/them";
 $route['list_bienban'] 		= "Bienban/list_bienban";
 $route['tao_bienban'] 		= "Bienban/tao_bienban";
 $route['insert_bienban'] 		= "Bienban/insert_bienban";
