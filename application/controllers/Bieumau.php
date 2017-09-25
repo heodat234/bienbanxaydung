@@ -112,7 +112,7 @@ class Bieumau extends CI_Controller {
         }
         //$data['title'] = $array;
         // echo $data['content'] = $arraydata;
-        return $arraydata;
+        return $array;
     }
     function edit_bieu_mau(){
         // var_dump($this->input->post());
@@ -149,6 +149,7 @@ class Bieumau extends CI_Controller {
 		echo json_encode($this->Bieumau_model->get_bieumau($id));
     }
 
+    
     public function select_dulieu()
     {
     	$id    = $this->input->post('id');
