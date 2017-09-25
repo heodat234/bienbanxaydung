@@ -26,7 +26,10 @@ if($this->session->has_userdata('user')) {
       <?php echo isset($html_header) ? $html_header : ''; ?>
       <?php echo isset($html_menu) ? $html_menu : ''; ?>
       <?php echo isset($html_body) ? $html_body : ''; ?>
-      
+      <div class="clearfix"></div>
+      <div style="text-align: center;" >
+        <p class="copy-right">Design by <a href="http://hungminhit.com/">HungMinhITS</a></p>
+      </div>
     </div>
     <!-- Javascripts-->
     <script src="<?php echo base_url(); ?>js/jquery-2.1.4.min.js"></script>

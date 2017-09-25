@@ -106,7 +106,7 @@ class Bieumau extends CI_Controller {
                     }
                     $k= substr($value, 4,1);//lấy so vung
                     $type = substr($value, 6); //lay loai du lieu can nhap
-                    $array[$k] =array('ten'=>$ten, 'loai'=>$type, 'cot'=>$col, 'hang'=>$row);
+                    $array[$k] =array('id'=>$k, 'ten'=>$ten, 'loai'=>$type, 'cot'=>$col, 'hang'=>$row);
                 }
             }
         }
@@ -114,5 +114,14 @@ class Bieumau extends CI_Controller {
        
         return $array;
         
+    }
+
+    public function select_dulieu()
+    {
+    	$id    = $this->input->post('id');
+    	$dulieu = $this->Bieumau_model->select_dulieu_id($id);
+    	$dulieu = unserialize($dulieu->dulieu);
+    	$dulieu = json_encode($dulieu);
+    	print_r( $dulieu);
     }
 }	

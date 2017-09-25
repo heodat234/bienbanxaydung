@@ -18,7 +18,8 @@
             </li>
             <li class="treeview"><a href="#"><i class="fa fa-edit"></i><span>Quản lý biên bản</span><i class="fa fa-angle-right"></i></a>
               <ul class="treeview-menu">
-                <li><a href="form-components.html"><i class="fa fa-circle-o"></i> Form Components</a></li>
+                <li><a href="<?php echo base_url(); ?>list_bienban"><i class="fa fa-circle-o"></i> Danh sách biên bản</a></li>
+                <li><a href="<?php echo base_url(); ?>tao_bienban"><i class="fa fa-circle-o"></i>Tạo biên bản mới</a></li>
               </ul>
             </li>
             
