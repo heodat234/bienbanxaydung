@@ -1,4 +1,4 @@
-<header class="main-header hidden-print"><a class="logo" href="index.html">Vali</a>
+<header class="main-header hidden-print"><a class="logo" href="index.html">Xây Dựng</a>
         <nav class="navbar navbar-static-top">
           <!-- Sidebar toggle button--><a class="sidebar-toggle" href="#" data-toggle="offcanvas"></a>
           <!-- Navbar Right Menu-->
@@ -22,7 +22,7 @@
                 <ul class="dropdown-menu settings-menu">
                   <li><a href="page-user.html"><i class="fa fa-cog fa-lg"></i> Settings</a></li>
                   <li><a href="page-user.html"><i class="fa fa-user fa-lg"></i> Profile</a></li>
-                  <li><a href="<?php echo base_url();?>login/logout"><i class="fa fa-sign-out fa-lg"></i> Logout</a></li>
+                  <li><a href="<?php echo base_url();?>login/logout"><i class="fa fa-sign-out fa-lg"></i> Đăng xuất</a></li>
                 </ul>
               </li>
             </ul>

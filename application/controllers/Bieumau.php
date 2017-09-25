@@ -31,12 +31,10 @@ class Bieumau extends CI_Controller {
 	public function chitiet_bieumau($id_bieumau)
 	{
 		$dulieu = $this->Bieumau_model->select_dulieu_id($id_bieumau);
-		$data['dulieu'] = unserialize($dulieu[0]['dulieu']);
-		// echo "<pre>";
-		// print_r($dulieu);
-		// echo "</pre>";
+		$data['dulieu'] = unserialize($dulieu->dulieu);
+		$data['ten_bieumau'] = $dulieu->ten;
+		
 		$this->_data['html_body'] = $this->load->view('page/chitiet_bieumau',$data , TRUE); 
-
 		$this->load->view('home/master', $this->_data);
 	}
 	public function them_bieumau()
@@ -93,7 +91,6 @@ class Bieumau extends CI_Controller {
         $highestRow    = $objWorksheet->getHighestRow();
         $highestColumn = $objWorksheet->getHighestColumn();
         $highestColumnIndex = PHPExcel_Cell::columnIndexFromString($highestColumn);
-        $arraydata = array();
         $array = array();
         $data = array();
         for ($row = 2; $row <= $highestRow;++$row)
@@ -103,18 +100,73 @@ class Bieumau extends CI_Controller {
                 $value=$objWorksheet->getCellByColumnAndRow($col, $row)->getValue();
                 $value = trim($value,'( )');
                 if (substr($value, 0,4) == "vung") {    //tim nhung chuoi co chu vung
-                    // echo $value."<br>";
-                    $arraydata[$col][$row] = explode(' ', $value);//explode: chuyen chuoi thanh mang
-                }else{
-                    $array[$row][$col] = $value;
+                    $ten=$objWorksheet->getCellByColumnAndRow($col-1, $row)->getValue();
+                    if ($ten=='') {
+                        $ten=$objWorksheet->getCellByColumnAndRow($col, $row-1)->getValue();
+                    }
+                    $k= substr($value, 4,1);//lấy so vung
+                    $type = substr($value, 6); //lay loai du lieu can nhap
+                    $array[$k] =array('id'=>$k, 'ten'=>$ten, 'loai'=>$type, 'cot'=>$col, 'hang'=>$row);
                 }
-                $data[$row][$col] = $value;
             }
         }
-        
         //$data['title'] = $array;
         // echo $data['content'] = $arraydata;
         return $arraydata;
-        
+    }
+    function edit_bieu_mau(){
+        // var_dump($this->input->post());
+        // var_dump($_FILES);
+        $id = $this->input->post('id');
+        $a_data['ten'] = $this->input->post('name');
+		$a_data['mota'] = $this->input->post('desc');
+
+		if (!empty($_FILES['file_input']['name'])) {
+		$config['upload_path'] = './template/';
+		$config['allowed_types'] = 'xlsx';
+		$config['file_name'] = $_FILES['file_input']['name'];
+		$this->load->library('upload', $config);
+		$this->upload->initialize($config);
+			if ($this->upload->do_upload('file_input')) {
+				$uploadData = $this->upload->data();
+				$a_data["file"] = $uploadData['file_name'];
+			} else{
+				$error = $this->upload->display_errors();
+        echo $error;
+				$a_data["file"] = '';
+			}
+		}else{
+			$a_data["file"] = '';
+		}
+
+		if($a_data["file"]=='') array_pop($a_data);
+		else{
+			$data = $this->readExcel($a_data["file"]);
+			$a_data['dulieu'] = serialize($data);
+		}
+		$this->Bieumau_model->update_bieumau($id,$a_data);
+
+		echo json_encode($this->Bieumau_model->get_bieumau($id));
+       
+        return $array;
+    }
+
+    public function select_dulieu()
+    {
+    	$id    = $this->input->post('id');
+    	$dulieu = $this->Bieumau_model->select_dulieu_id($id);
+    	$dulieu = unserialize($dulieu->dulieu);
+    	$dulieu = json_encode($dulieu);
+    	print_r( $dulieu);
+        return $array;
+    }
+
+    public function select_dulieu()
+    {
+    	$id    = $this->input->post('id');
+    	$dulieu = $this->Bieumau_model->select_dulieu_id($id);
+    	$dulieu = unserialize($dulieu->dulieu);
+    	$dulieu = json_encode($dulieu);
+    	print_r( $dulieu);
     }
 }	

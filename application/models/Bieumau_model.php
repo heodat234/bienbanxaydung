@@ -13,14 +13,28 @@ class Bieumau_model extends CI_Model{
         $query=$this->db->get("bieumau"); 
         return $query->result();
    }
-    public function insert_bieumau($data)
+   public function get_bieumau($id)
+   {
+   $this->db->select('file')->where('id',$id); 
+        $query=$this->db->get("bieumau"); 
+        return $query->result_array();
+   }
+   public function insert_bieumau($data)
      {
       $this->db->insert("bieumau",$data);
      }
+    public function update_bieumau($id,$data)
+     {
+      $this->db->where('id',$id)
+              ->from('bieumau')
+              ->update("bieumau",$data);
+     }
     public function select_dulieu_id($id='')
     {
-        $this->db->select('dulieu')->where('id',$id); 
+        $this->db->select('ten,dulieu')->where('id',$id); 
         $query=$this->db->get("bieumau"); 
-        return $query->result_array();
+        return $query->first_row();
+
     }
+    
 }
