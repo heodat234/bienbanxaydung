@@ -151,8 +151,6 @@ class Bieumau extends CI_Controller {
 		$this->Bieumau_model->update_bieumau($id,$a_data);
 
 		echo json_encode($this->Bieumau_model->get_bieumau($id));
-       
-        
     }
 
     
