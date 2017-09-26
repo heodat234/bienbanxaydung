@@ -8,7 +8,7 @@
               <li class="active"><a href="#">Danh sách biên bản</a></li>
             </ul>
           </div>
-          <div><a class="btn btn-primary btn-flat" href="#"><i class="fa fa-lg fa-plus"></i></a><a class="btn btn-info btn-flat" href="#"><i class="fa fa-lg fa-refresh"></i></a><a class="btn btn-warning btn-flat" href="#"><i class="fa fa-lg fa-trash"></i></a></div>
+          <div><a class="btn btn-primary btn-flat" href="<?php echo base_url(); ?>tao_bienban"><i class="fa fa-lg fa-plus"></i></a><a class="btn btn-info btn-flat" href="<?php echo base_url(); ?>list_bienban"><i class="fa fa-lg fa-refresh"></i></a><a class="btn btn-warning btn-flat" href="#"><i class="fa fa-lg fa-trash"></i></a></div>
         </div>
         <div class="row">
           <div class="col-md-12">
@@ -32,9 +32,9 @@
                          
                           <td><?php echo $bienban->ten_bienban ?></td>
                           <td><?php echo date("d/m/Y H:i:s",strtotime($bienban->created_at))  ?></td>
-                          <td><a class="btn btn-info btn-flat" href=""><i class="fa fa-lg fa-eye"></i></a></td>
-                          <td></td>
-                          <td></td>
+                          <td><a class="btn btn-info btn-flat" href=""><i class="fa fa-lg fa-pencil"></i></a></td>
+                          <td><a class="btn btn-info btn-flat" href=""><i class="fa fa-lg fa-print"></i></a></td>
+                          <td><a class="btn btn-info btn-flat" href="<?php echo base_url().'export_excel/'.$bienban->id ?>"><i class="fa fa-lg fa-file-excel-o"></i></a></td>
                           <!-- <td><a class="btn btn-primary btn-flat" data-toggle="modal" href="#edit"><i class="fa fa-lg fa-pencil"></i></a></td> -->
                         </tr>                    
                     <?php endforeach;?>

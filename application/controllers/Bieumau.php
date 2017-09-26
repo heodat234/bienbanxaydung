@@ -100,7 +100,11 @@ class Bieumau extends CI_Controller {
                 $value=$objWorksheet->getCellByColumnAndRow($col, $row)->getValue();
                 $value = trim($value,'( )');
                 if (substr($value, 0,4) == "vung") {    //tim nhung chuoi co chu vung
-                    $ten=$objWorksheet->getCellByColumnAndRow($col-1, $row)->getValue();
+                	if ($col==0) {
+                		$ten=$objWorksheet->getCellByColumnAndRow($col, $row-1)->getValue();
+                	}else{
+                		$ten=$objWorksheet->getCellByColumnAndRow($col-1, $row)->getValue();
+                	}
                     if ($ten=='') {
                         $ten=$objWorksheet->getCellByColumnAndRow($col, $row-1)->getValue();
                     }

@@ -17,12 +17,22 @@ class Bienban_model extends CI_Model{
      {
       $this->db->insert("bienban",$data);
      }
-    // public function select_dulieu_id($id='')
-    // {
-    //     $this->db->select('ten,dulieu')->where('id',$id); 
-    //     $query=$this->db->get("bieumau"); 
-    //     return $query->first_row();
 
-    // }
+    public function filename_Excel_id($id='')
+    {
+      $this->db->select('B.file');
+      $this->db->from('bienban A');
+      $this->db->where('A.id',$id);
+      $this->db->join('bieumau B','A.id_bieumau = B.id');
+      $query = $this->db->get();
+      return $query->first_row();
+    }
+    public function get_dulieu_id($id='')
+    {
+        $this->db->select('dulieu')->where('id',$id); 
+        $query=$this->db->get("bienban"); 
+        return $query->first_row();
+
+    }
     
 }

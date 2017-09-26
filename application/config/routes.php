@@ -65,3 +65,5 @@ $route['list_bienban'] 		= "Bienban/list_bienban";
 $route['tao_bienban'] 		= "Bienban/tao_bienban";
 $route['insert_bienban'] 		= "Bienban/insert_bienban";
 $route['load_dulieu'] 		= "Bieumau/select_dulieu";
+
+$route['export_excel/(:num)'] 		= "Export/export_excel/$1";

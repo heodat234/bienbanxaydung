@@ -39,17 +39,35 @@ class Bienban extends CI_Controller {
         $a_data['ten_bienban'] = $this->input->post('ten');
         $a_data['id_user'] = $this->session->userdata('user')['id'];
         $id_bieumau = $this->input->post('id_bieumau');
-        
+        $a_data['id_bieumau'] = $id_bieumau;
+
+        if (!empty($_FILES['image']['name'])) {
+            $config['upload_path'] = './images/';
+            $config['allowed_types'] = 'jpg|jpeg|png|gif';
+            $config['file_name'] = $_FILES['image']['name'];
+
+            $this->load->library('upload', $config);
+            $this->upload->initialize($config);
+            if ($this->upload->do_upload('image')) {
+                $uploadData = $this->upload->data();
+                $data = $uploadData['file_name'];
+            } else{
+                $data = '';
+            }
+        }else{
+            $data = '';
+        }
+
         $dulieu = $this->Bieumau_model->select_dulieu_id($id_bieumau);
         $dulieu = unserialize($dulieu->dulieu);
-        // var_dump($dulieu);
         $count =count($dulieu);
-        // // var_dump(unserialize($dulieu->dulieu));
-        // $data = array();
-        for ($i=1; $i < $count; $i++) { 
-             array_push($dulieu[$i] , $this->input->post($i));
+        for ($i=1; $i <= $count; $i++) { 
+            if($dulieu[$i]['loai']=='file'){
+             array_push($dulieu[$i] , $data);
+            }else{
+                array_push($dulieu[$i] , $this->input->post($i));
+            }
         }
-        // var_dump($dulieu[1][0]);
         $a_data['dulieu'] = serialize($dulieu);
         
         $this->Bienban_model->insert_bienban($a_data);
