@@ -23,7 +23,7 @@
                     <div class="form-group">
                       <label class="col-lg-2 control-label" for="ten">Tên biên bản</label>
                       <div class="col-lg-10">
-                        <input class="form-control" name="ten" id="ten" type="text" placeholder="tên biên bản" value="<?php echo set_value('ten')?>">
+                        <input class="form-control" name="ten" id="ten" type="text" placeholder="tên biên bản" required="" value="<?php echo set_value('ten')?>">
                         <div class="error" id="ten_error"><?php echo form_error('ten')?></div>
                       </div>
                     </div>    
