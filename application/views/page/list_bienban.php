@@ -8,7 +8,8 @@
               <li class="active"><a href="#">Danh sách biên bản</a></li>
             </ul>
           </div>
-          <div><a class="btn btn-primary btn-flat" href="<?php echo base_url(); ?>tao_bienban"><i class="fa fa-lg fa-plus"></i></a><a class="btn btn-info btn-flat" href="<?php echo base_url(); ?>list_bienban"><i class="fa fa-lg fa-refresh"></i></a><a class="btn btn-warning btn-flat" href="#"><i class="fa fa-lg fa-trash"></i></a></div>
+          <div><a class="btn btn-primary btn-flat" href="<?php echo base_url(); ?>tao_bienban"><i class="fa fa-lg fa-plus"></i></a><a class="btn btn-info btn-flat" href="<?php echo base_url(); ?>list_bienban"><i class="fa fa-lg fa-refresh"></i></a><a class="btn btn-warning btn-flat" href="<?php echo base_url(); ?>all_excel"><i class="fa fa-lg fa-file-excel-o"> Excel</i></a></div>
+
         </div>
         <div class="row">
           <div class="col-md-12">
