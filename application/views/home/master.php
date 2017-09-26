@@ -14,7 +14,7 @@ if($this->session->has_userdata('user')) {
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <title>Vali Admin</title>
+    <title>Xây Dựng</title>
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries-->
     <!--if lt IE 9
     script(src='https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js')
