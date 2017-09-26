@@ -26,7 +26,6 @@ class Bieumau_model extends CI_Model{
     public function update_bieumau($id,$data)
      {
       $this->db->where('id',$id)
-              ->from('bieumau')
               ->update("bieumau",$data);
      }
     public function select_dulieu_id($id='')

@@ -147,7 +147,7 @@ $('#edit').on('show.bs.modal', function(e) {
           $(e.relatedTarget).data('desc',changeDesc);
         }
     });
-    });
+  });
 });
 
 </script>

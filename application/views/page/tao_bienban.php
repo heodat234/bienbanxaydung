@@ -11,7 +11,6 @@
               <li class="active"><a href="#">Tạo biên bản</a></li>
             </ul>
           </div>
-          <div><a class="btn btn-primary btn-flat" href="#"><i class="fa fa-lg fa-plus"></i></a><a class="btn btn-info btn-flat" href="#"><i class="fa fa-lg fa-refresh"></i></a><a class="btn btn-warning btn-flat" href="#"><i class="fa fa-lg fa-trash"></i></a></div>
         </div>
         <div class="row">
           <div class="col-md-12">
@@ -68,13 +67,14 @@
             dataType: 'json',
             success: function(data){
               for (var i in data) {
-                $('.dulieu').before( '<div class="form-group load"> <label class="col-lg-2 control-label">'+data[i].ten+'</label><div class="col-lg-10"><input class="form-control" name='+data[i].id+' id="ten" type='+data[i].loai+' placeholder=""></div></div>' );
-
+                if (data[i].loai=='file') {
+                  $('.dulieu').before( '<div class="form-group load"> <label class="col-lg-2 control-label">'+data[i].ten+'</label><div class="col-lg-10"><input class="form-control" name="image" id="ten" type='+data[i].loai+' required ></div></div>' );
+                }else{
+                  $('.dulieu').before( '<div class="form-group load"> <label class="col-lg-2 control-label">'+data[i].ten+'</label><div class="col-lg-10"><input class="form-control" name='+data[i].id+' id="ten" type='+data[i].loai+' required ></div></div>' );
+                }
               }
-              
             }
           });
-
           
         }
       </script>
