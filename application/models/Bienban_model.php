@@ -43,6 +43,7 @@ class Bienban_model extends CI_Model{
     //     $query=$this->db->get("bieumau"); 
     //     return $query->first_row();
 
+     
     public function filename_Excel_id($id='')
     {
       $this->db->select('B.file');
