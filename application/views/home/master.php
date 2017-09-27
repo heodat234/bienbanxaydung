@@ -9,6 +9,7 @@ if($this->session->has_userdata('user')) {
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- CSS-->
     <link rel="stylesheet" type="text/css" href="<?php echo base_url(); ?>css/main.css">
+    <link rel="stylesheet" type="text/css" href="<?php echo base_url(); ?>css/main.css.map">
     <!-- Font-icon css-->
     <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
@@ -33,7 +34,7 @@ if($this->session->has_userdata('user')) {
     </div>
     <!-- Javascripts-->
     <script src="<?php echo base_url(); ?>js/jquery-2.1.4.min.js"></script>
-    <script src="<?php echo base_url(); ?>js/bootstrap.min.js"></script>
+    <!-- <script src="<?php echo base_url(); ?>js/bootstrap.min.js"></script> -->
     <script src="<?php echo base_url(); ?>js/plugins/pace.min.js"></script>
     <script src="<?php echo base_url(); ?>js/main.js"></script>
     <script type="text/javascript" src="<?php echo base_url(); ?>js/plugins/jquery.dataTables.min.js"></script>
