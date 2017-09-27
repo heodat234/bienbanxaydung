@@ -34,8 +34,10 @@ class export extends CI_Controller {
         $objPHPExcel->setActiveSheetIndex(0);
 
         $dulieu = $this->Bienban_model->get_dulieu_id($id);
+        $filename = $this->stripUnicode($dulieu->ten_bienban);
         $dulieu = unserialize($dulieu->dulieu);
-        // var_dump($dulieu[8]);        
+        // var_dump($filename); 
+
         foreach ($dulieu as $dl) {
             if ($dl['loai']=='file') {
                 $objPHPExcel->getActiveSheet()->setCellValueByColumnAndRow($dl['cot'],$dl['hang'],'');
@@ -57,7 +59,7 @@ class export extends CI_Controller {
         $object_writer = PHPExcel_IOFactory::createWriter($objPHPExcel,'Excel2007');
         ob_end_clean();
         header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-        header('Content-Disposition: attachment; filename='.$file->file.'');
+        header('Content-Disposition: attachment; filename='.$filename.'.xlsx');
         header('Cache-Control: max-age=0');
         $object_writer->save('php://output');
         
@@ -66,7 +68,6 @@ class export extends CI_Controller {
     public function all_excel()
     {
         $fileExcel = array();
-        $dem = 1;
         $id = $this->session->userdata('user')['id'];
         $data = $this->Bienban_model->select_bienban($id);
         foreach ($data as $da) {
@@ -79,6 +80,7 @@ class export extends CI_Controller {
             $objPHPExcel->setActiveSheetIndex(0);
 
             $dulieu = $this->Bienban_model->get_dulieu_id($da->id);
+            $filename = $this->stripUnicode($dulieu->ten_bienban);
             $dulieu = unserialize($dulieu->dulieu);
             // var_dump($dulieu[8]);        
             foreach ($dulieu as $dl) {
@@ -100,10 +102,9 @@ class export extends CI_Controller {
                 }
             }
             $object_writer = PHPExcel_IOFactory::createWriter($objPHPExcel,'Excel2007');
-            $object_writer->save($dem.$file->file);
+            $object_writer->save($filename.'.xlsx');
         
-            array_push($fileExcel, $dem.$file->file);
-            $dem++;
+            array_push($fileExcel, $filename.'.xlsx');
         }
         // var_dump($fileExcel);
         $zipname = 'file.zip';
@@ -119,5 +120,22 @@ class export extends CI_Controller {
         header('Content-Length: ' . filesize($zipname));
         readfile($zipname);
         // unset($fileExcel);
+    }
+
+
+
+    public function stripUnicode($str){
+      if(!$str) return false;
+       $unicode = array(
+          'a'=>'á|à|ả|ã|ạ|ă|ắ|ặ|ằ|ẳ|ẵ|â|ấ|ầ|ẩ|ẫ|ậ',
+          'd'=>'đ',
+          'e'=>'é|è|ẻ|ẽ|ẹ|ê|ế|ề|ể|ễ|ệ',
+          'i'=>'í|ì|ỉ|ĩ|ị',
+          'o'=>'ó|ò|ỏ|õ|ọ|ô|ố|ồ|ổ|ỗ|ộ|ơ|ớ|ờ|ở|ỡ|ợ',
+          'u'=>'ú|ù|ủ|ũ|ụ|ư|ứ|ừ|ử|ữ|ự',
+          'y'=>'ý|ỳ|ỷ|ỹ|ỵ',
+       );
+    foreach($unicode as $nonUnicode=>$uni) $str = preg_replace("/($uni)/i",$nonUnicode,$str);
+    return $str;
     }
 }

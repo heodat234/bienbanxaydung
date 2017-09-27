@@ -55,7 +55,7 @@ class Bienban_model extends CI_Model{
     }
     public function get_dulieu_id($id='')
     {
-        $this->db->select('dulieu')->where('id',$id); 
+        $this->db->select('ten_bienban,dulieu')->where('id',$id); 
         $query=$this->db->get("bienban"); 
         return $query->first_row();
     }
