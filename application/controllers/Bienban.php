@@ -12,7 +12,7 @@ class Bienban extends CI_Controller {
 		$this->load->helper('security');
 		$this->load->model(array('Bienban_model'));
         $this->load->model(array('Bieumau_model'));
-
+        date_default_timezone_set('Asia/Ho_Chi_Minh');
         $this->_data['html_header'] = $this->load->view('home/header', NULL, TRUE);  
         $this->_data['html_menu'] = $this->load->view('home/menu', NULL, TRUE);
     }

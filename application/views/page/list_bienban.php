@@ -76,7 +76,7 @@
 
               <div class="modal-footer">
                  <div class="form-group">
-                    <button type="button" class="btn btn-sm btn-info" data-dismiss="modal" id="btn-sbmt"> Save <span class="glyphicon glyphicon-saved"></span></button>
+                    <button type="button" class="btn btn-sm btn-info" data-dismiss='modal' id="btn-sbmt"> Save <span class="glyphicon glyphicon-saved"></span></button>
 
                     <button type="button" data-dismiss="modal" class="btn btn-sm btn-default"> Cancel <span class="glyphicon glyphicon-remove"></span></button>
                  </div>
@@ -124,4 +124,5 @@ $('#edit').on('show.bs.modal', function(e) {
     });
   });
 });
+
 </script>
