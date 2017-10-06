@@ -62,18 +62,18 @@ class Bieumau extends CI_Controller {
 				if ($this->upload->do_upload('file')) {
 					$uploadData = $this->upload->data();
 					$a_data["file"] = $uploadData['file_name'];
-					$data["type"] = $uploadData['file_type'];
+					$data["type"] = $uploadData['file_ext'];
 				} else{
 					$error = $this->upload->display_errors();
-            echo $error;
+            		echo $error;
 					$a_data["file"] = '';
 				}
 			}else{
 				$a_data["file"] = '';
 			}
-			if ($data["type"] == 'xlsx') {
+			if ($data["type"] == '.xlsx') {
 				$data = $this->readExcel($a_data["file"]);
-			}else{
+			}if ($data["type"] == '.docx'){
 				$data = $this->readWord($a_data["file"]);
 			}
 			$a_data['dulieu'] = serialize($data);

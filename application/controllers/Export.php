@@ -24,33 +24,15 @@ class export extends CI_Controller {
 
         $this->load->view("excelTable",$data);
     }
-
     public function export_excel($id='')
      {
         $dulieu = $this->Bienban_model->get_dulieu_id($id);
         //var_dump($dulieu);
         $filename = stripUnicode($dulieu->ten_bienban);
         $dulieu = unserialize($dulieu->dulieu);
-        //var_dump($filename); 
+        //var_dump($filename);
 
-        foreach ($dulieu as $dl) {
-            if ($dl['loai']=='file') {
-                $objPHPExcel->getActiveSheet()->setCellValueByColumnAndRow($dl['cot'],$dl['hang'],'');
-                $colString = PHPExcel_Cell::stringFromColumnIndex($dl['cot']+1);
-                
-                $objDrawing = new PHPExcel_Worksheet_Drawing();
-                $objDrawing->setName($dl[0]);
-                $objDrawing->setDescription($dl[0]);
-                $objDrawing->setPath('./images/'.$dl[0].'');
-                $objDrawing->setCoordinates(''.$colString.''.$dl['hang'].'');
-                $objDrawing->setHeight(200);
-                $objDrawing->setWidth(380);
-                $objDrawing->setWorksheet($objPHPExcel->getActiveSheet());
-             } 
-             else{
-                $objPHPExcel->getActiveSheet()->setCellValueByColumnAndRow($dl['cot'],$dl['hang'],$dl[0]);
-        $filename = stripUnicode($dulieu->ten_bienban);//đổi tên thành ko dấu
-        $dulieu = unserialize($dulieu->dulieu);
+       
         if ($dulieu['file'] == 'excel') {
             $object = new PHPExcel();
             $file = $this->Bienban_model->filename_excel_id($id);
@@ -68,8 +50,8 @@ class export extends CI_Controller {
                     $objDrawing->setDescription($dl[0]);
                     $objDrawing->setPath('./images/'.$dl[0].'');
                     $objDrawing->setCoordinates(''.$colString.''.$dl['hang'].'');
-                    $objDrawing->setHeight(200);
-                    $objDrawing->setWidth(380);
+                    $objDrawing->setHeight(150);
+                    $objDrawing->setWidth(200);
                     $objDrawing->setWorksheet($objPHPExcel->getActiveSheet());
                  } 
                  else{
@@ -88,10 +70,7 @@ class export extends CI_Controller {
             $document = $phpWord->loadTemplate('template/'.$file->file.'');
             unset($dulieu['file']);
             foreach ($dulieu as $dl) {
-                if ($dl['loai'] == 'file') {
-                    $image = "../../images/".$dl[0];
-                    $document->replaceStrToImg($dl['search'],$image);
-                }
+                
                 $document->setValue($dl['search'],$dl[0]);
             }
             //save file
