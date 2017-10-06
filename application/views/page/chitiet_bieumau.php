@@ -20,19 +20,32 @@
                     <tr>
                       <th>Tên vùng dữ liệu</th>
                       <th>Loại dữ liệu</th>
-                      <th>Vị trí xuất Excel (cột:hàng)</th>
-                    
+                      <?php if ($dulieu['file'] == 'excel') {
+                        echo '<th>Vị trí xuất Excel (cột:hàng)</th>';
+                      }else{
+                        echo '<th>Tên biến</th>';
+                      } ?>
+                      
                     </tr>
                   </thead>
                   <tbody>
                     <?php
-                      foreach ($dulieu as $dl) { ?>
+                    // var_dump($dulieu);
+                    if ($dulieu['file'] == 'excel') {
+                      for ($i=1; $i < count($dulieu); $i++) { ?>
                         <tr>
-                          <td><?php echo $dl['ten'] ?></td>
-                          <td><?php echo $dl['loai'] ?></td>
-                          <td>(<?php echo $dl['cot'].':'.$dl['hang'] ?>)</td>
+                          <td><?php echo $dulieu[$i]['ten'] ?></td>
+                          <td><?php echo $dulieu[$i]['loai'] ?></td>
+                          <td>(<?php echo $dulieu[$i]['cot'].':'.$dulieu[$i]['hang'] ?>)</td>
                         </tr>
-                      <?php } ?>
+                      <?php } }else{ 
+                          for ($i=0; $i < count($dulieu)-1; $i++) { ?>
+                          <tr>
+                            <td><?php echo $dulieu[$i]['ten'] ?></td>
+                            <td><?php echo $dulieu[$i]['loai'] ?></td>
+                            <td>(<?php echo $dulieu[$i]['search'] ?>)</td>
+                        </tr>
+                     <?php } } ?>
                   </tbody>
                 </table>
                

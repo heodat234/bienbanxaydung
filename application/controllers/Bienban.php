@@ -60,13 +60,25 @@ class Bienban extends CI_Controller {
         $dulieu = $this->Bieumau_model->select_dulieu_id($id_bieumau);
         $dulieu = unserialize($dulieu->dulieu);
         $count =count($dulieu);
-        for ($i=1; $i <= $count; $i++) { 
-            if($dulieu[$i]['loai']=='file'){
-             array_push($dulieu[$i] , $data);
-            }else{
-                array_push($dulieu[$i] , $this->input->post($i));
+        if($dulieu['file'] == 'excel'){
+            for ($i=1; $i < $count; $i++) { 
+                if($dulieu[$i]['loai']=='file'){
+                 array_push($dulieu[$i] , $data);
+                }else{
+                    array_push($dulieu[$i] , $this->input->post($i));
+                }
+            }
+        }else{
+            for ($i=0; $i < $count-1; $i++) { 
+                if($dulieu[$i]['loai']=='file'){
+                 array_push($dulieu[$i] , $data);
+                }else{
+                    array_push($dulieu[$i] , $this->input->post($i+1));
+                }
             }
         }
+        
+        // var_dump($dulieu);
         $a_data['dulieu'] = serialize($dulieu);
         
         $this->Bienban_model->insert_bienban($a_data);
@@ -79,6 +91,7 @@ class Bienban extends CI_Controller {
         $id = $this->input->post('id');
         $dulieu = $this->Bienban_model->get_bienban($id);
         $bienban = unserialize($dulieu->dulieu);
+        // var_dump($bienban);
         foreach ($bienban as $bb){
             if(is_array($bb) && array_key_exists('0',$bb)){
                 $data['form-data'].='
@@ -106,14 +119,7 @@ class Bienban extends CI_Controller {
                 ';
             }
            
-            //var_dump($bb);
-            // echo $bb['id'];
-            // echo $bb['ten'];
-            // echo $bb['loai'];
-            // echo $bb['cot'];
-            // echo $bb['hang'];
-            // echo $bb['0'];
-            // echo "</br>";
+        
         }
         echo json_encode($data['form-data']);
     }

@@ -11,6 +11,7 @@ class Bieumau extends CI_Controller {
 		$this->load->library(array('form_validation','session'));
 		$this->load->helper('security');
 		$this->load->library("excel");
+		$this->load->library('word');
 		$this->load->model(array('Bieumau_model'));
         $this->_data['html_header'] = $this->load->view('home/header', NULL, TRUE);  
         $this->_data['html_menu'] = $this->load->view('home/menu', NULL, TRUE);
@@ -54,13 +55,14 @@ class Bieumau extends CI_Controller {
 
 			if (!empty($_FILES['file']['name'])) {
 			$config['upload_path'] = './template/';
-			$config['allowed_types'] = 'xlsx';
+			$config['allowed_types'] = 'xlsx|docx';
 			$config['file_name'] = $_FILES['file']['name'];
 			$this->load->library('upload', $config);
 			$this->upload->initialize($config);
 				if ($this->upload->do_upload('file')) {
 					$uploadData = $this->upload->data();
 					$a_data["file"] = $uploadData['file_name'];
+					$data["type"] = $uploadData['file_type'];
 				} else{
 					$error = $this->upload->display_errors();
             echo $error;
@@ -69,8 +71,11 @@ class Bieumau extends CI_Controller {
 			}else{
 				$a_data["file"] = '';
 			}
-
-			$data = $this->readExcel($a_data["file"]);
+			if ($data["type"] == 'xlsx') {
+				$data = $this->readExcel($a_data["file"]);
+			}else{
+				$data = $this->readWord($a_data["file"]);
+			}
 			$a_data['dulieu'] = serialize($data);
 			$this->Bieumau_model->insert_bieumau($a_data);
 			redirect(base_url('list_bieumau'));
@@ -91,7 +96,7 @@ class Bieumau extends CI_Controller {
         $highestRow    = $objWorksheet->getHighestRow();
         $highestColumn = $objWorksheet->getHighestColumn();
         $highestColumnIndex = PHPExcel_Cell::columnIndexFromString($highestColumn);
-        $array = array();
+        $array = array('file' =>'excel' );
         $data = array();
         for ($row = 2; $row <= $highestRow;++$row)
         {
@@ -116,6 +121,28 @@ class Bieumau extends CI_Controller {
         }
         //$data['title'] = $array;
         // echo $data['content'] = $arraydata;
+        return $array;
+    }
+
+
+    function readWord($filename)
+    {
+    	$phpWord = new \PhpOffice\PhpWord\PhpWord();
+
+        $document = $phpWord->loadTemplate('template/'.$filename.'');
+        $variables = $document->getVariables();
+        $mData =array();
+        $var = array();
+        $array = array('file' =>'word' );
+        $id=1;
+        for ($i=0; $i < count($variables); $i++) { 
+            $var[$i] = preg_replace('/<[^>]+>/', '',$variables[$i]);
+            $mData[$i] = explode(",",$var[$i] );
+            $array[$i] =array('id'=>$id, 'ten'=>$mData[$i][0], 'loai'=>$mData[$i][1],'search'=>$var[$i]);
+            $id++;
+        }
+
+        // var_dump($array);
         return $array;
     }
     function edit_bieu_mau(){
@@ -159,6 +186,7 @@ class Bieumau extends CI_Controller {
     	$id    = $this->input->post('id');
     	$dulieu = $this->Bieumau_model->select_dulieu_id($id);
     	$dulieu = unserialize($dulieu->dulieu);
+    	unset($dulieu['file']);
     	$dulieu = json_encode($dulieu);
     	print_r( $dulieu);
     }
