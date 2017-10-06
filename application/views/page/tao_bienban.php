@@ -30,7 +30,8 @@
                     <div class="form-group ">
                       <label class="col-lg-2 control-label" for="ten">Chọn biểu mẫu</label>
                       <div class="col-lg-10">
-                        <select class="form-control" name="id_bieumau" id="select" onchange="load_bieumau()">
+                        <select required="" class="form-control" name="id_bieumau" id="select" onchange="load_bieumau()">
+                          <option value="0" >Chọn biểu mẫu</option>
                           <?php foreach ($bieumaus as $bieumau) { ?>
                           <option value="<?php echo $bieumau->id ?>"><?php echo $bieumau->ten ?></option>
                           <?php } ?>
@@ -48,7 +49,7 @@
                 <div class="form-group ">
                   <div class="col-lg-10 col-lg-offset-2">
                     <button class="btn btn-default" type="reset">Hủy bỏ</button>
-                    <button class="btn btn-primary" type="submit">Gửi</button>
+                    <button class="btn btn-primary" id="btn-sub">Lưu</button>
                   </div>
                 </div>
               </div>
@@ -57,6 +58,13 @@
         </div>
       </div>
       <script type="text/javascript">
+        $('#btn-sub').click(function(e) {
+          var id = $('#select').val();
+          if (id==0) {
+            alert('Bạn chưa chọn biểu mẫu');
+            e.preventDefault();
+          }
+        });
         function load_bieumau() {
           var id = $('#select').val();
           $('.load').remove();
@@ -74,6 +82,7 @@
                 }
               }
             }
+          
           });
           
         }

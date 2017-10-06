@@ -4,7 +4,7 @@
             <div class="pull-left image"><img class="img-circle" src="https://s3.amazonaws.com/uifaces/faces/twitter/jsa/48.jpg" alt="User Image"></div>
             <div class="pull-left info">
               <p><?php echo $this->session->userdata('user')['username'] ?></p>
-              <p class="designation">Frontend Developer</p>
+              <p class="designation">Admin</p>
             </div>
           </div>
           <!-- Sidebar Menu-->

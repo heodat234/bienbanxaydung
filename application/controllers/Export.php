@@ -35,9 +35,10 @@ class export extends CI_Controller {
         $objPHPExcel->setActiveSheetIndex(0);
 
         $dulieu = $this->Bienban_model->get_dulieu_id($id);
+        //var_dump($dulieu);
         $filename = stripUnicode($dulieu->ten_bienban);
         $dulieu = unserialize($dulieu->dulieu);
-        // var_dump($filename); 
+        //var_dump($filename); 
 
         foreach ($dulieu as $dl) {
             if ($dl['loai']=='file') {
