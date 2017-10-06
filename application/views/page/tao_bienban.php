@@ -30,13 +30,8 @@
                     <div class="form-group ">
                       <label class="col-lg-2 control-label" for="ten">Chọn biểu mẫu</label>
                       <div class="col-lg-10">
-<<<<<<< HEAD
                         <select required="" class="form-control" name="id_bieumau" id="select" onchange="load_bieumau()">
                           <option value="0" >Chọn biểu mẫu</option>
-=======
-                        <select class="form-control" name="id_bieumau" id="select" onchange="load_bieumau()">
-                          <option value="0">Chọn biểu mẫu</option>
->>>>>>> 32709a0c72d4209686a5d64105e9181395ebe158
                           <?php foreach ($bieumaus as $bieumau) { ?>
                           <option value="<?php echo $bieumau->id ?>"><?php echo $bieumau->ten ?></option>
                           <?php } ?>
@@ -54,11 +49,7 @@
                 <div class="form-group ">
                   <div class="col-lg-10 col-lg-offset-2">
                     <button class="btn btn-default" type="reset">Hủy bỏ</button>
-<<<<<<< HEAD
-                    <button class="btn btn-primary" id="btn-sub">Lưu</button>
-=======
                     <button class="btn btn-primary" id="btn-sub" >Lưu</button>
->>>>>>> 32709a0c72d4209686a5d64105e9181395ebe158
                   </div>
                 </div>
               </div>
@@ -70,10 +61,6 @@
         var csrf_test_name   = '<?php echo $this->security->get_csrf_hash(); ?>';
       </script> -->
       <script type="text/javascript">
-<<<<<<< HEAD
-=======
-        
->>>>>>> 32709a0c72d4209686a5d64105e9181395ebe158
         $('#btn-sub').click(function(e) {
           var id = $('#select').val();
           if (id==0) {
@@ -81,10 +68,6 @@
             e.preventDefault();
           }
         });
-<<<<<<< HEAD
-=======
-        
->>>>>>> 32709a0c72d4209686a5d64105e9181395ebe158
         function load_bieumau() {
           
           var id = $('#select').val();

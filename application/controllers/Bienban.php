@@ -91,7 +91,7 @@ class Bienban extends CI_Controller {
         $id = $this->input->post('id');
         $dulieu = $this->Bienban_model->get_bienban($id);
         $bienban = unserialize($dulieu->dulieu);
-        // var_dump($bienban);
+        unset($bienban['file']);
         foreach ($bienban as $bb){
             if(is_array($bb) && array_key_exists('0',$bb)){
                 $data['form-data'].='
@@ -126,10 +126,31 @@ class Bienban extends CI_Controller {
 
     public function update_bien_ban(){
         $frm = $this->input->post();
+        //var_dump($frm);
         $dulieu = $this->Bienban_model->get_bienban($frm['id']);
         $bienban = unserialize($dulieu->dulieu);
-        for($i=1;$i<=count($bienban);$i++) {
-            $bienban[$i]['0'] = $frm[$i];
+        if (!empty($_FILES['1']['name'])) {
+            $config['upload_path'] = './images/';
+            $config['allowed_types'] = 'jpg|jpeg|png|gif';
+            $config['file_name'] = $_FILES['1']['name'];
+
+            $this->load->library('upload', $config);
+            $this->upload->initialize($config);
+            if ($this->upload->do_upload('1')) {
+                $uploadData = $this->upload->data();
+                $frm['1'] = $uploadData['file_name'];
+            } else{
+                $frm['1'] = '';
+            }
+        }else{
+            $frm['1'] = '';
+        }
+        // var_dump($frm);
+        // echo "</br>";
+        // var_dump($bienban);
+        unset($bienban['file']);
+        for ($i=0; $i<count($bienban);$i++) {
+            $bienban[$i]['0'] = $frm[$i+1];
         }
         $udata['dulieu'] = serialize($bienban);
         $udata['ten_bienban'] = $frm['name'];
