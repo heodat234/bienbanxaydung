@@ -94,6 +94,21 @@ class Bienban extends CI_Controller {
         unset($bienban['file']);
         foreach ($bienban as $bb){
             if(is_array($bb) && array_key_exists('0',$bb)){
+                if($bb['loai']=='file'){
+                $data['form-data'].='
+                    <div class="form-group">
+                     <div><b>'.$bb['ten'].'</b></div>
+                     <div class="input-group">
+                        <div class="input-group-addon iga2">
+                           <span class="glyphicon glyphicon-edit"></span>
+                        </div>
+                        <input type="text" disabled="" class="form-control" id="f_in" value="'.$bb['0'].'">
+                        <div class="input-group-addon iga2">
+                           <label class="fa"><b>...</b><input onchange="showFile(this);" type="file" id="file_input" name="'.$bb['id'].'" style="display: none;"></label>
+                        </div>
+                     </div>
+                  </div>
+                ';}else{
                 $data['form-data'].='
                     <div class="form-group">
                      <div><b>'.$bb['ten'].'</b></div>
@@ -104,9 +119,24 @@ class Bienban extends CI_Controller {
                         <input type="'.$bb['loai'].'" class="form-control" name="'.$bb['id'].'" value="'.$bb['0'].'">
                      </div>
                   </div>
-                '; 
+                ';} 
             }else{
-                 $data['form-data'].='
+                if($bb['loai']=='file'){
+                $data['form-data'].='
+                    <div class="form-group">
+                     <div><b>'.$bb['ten'].'</b></div>
+                     <div class="input-group">
+                        <div class="input-group-addon iga2">
+                           <span class="glyphicon glyphicon-edit"></span>
+                        </div>
+                        <input type="text" disabled="" class="form-control" id="f_in" value="">
+                        <div class="input-group-addon iga2">
+                           <label class="fa"><b>...</b><input onchange="showFile(this);" type="file" id="file_input" name="'.$bb['id'].'" style="display: none;"></label>
+                        </div>
+                     </div>
+                  </div>
+                ';}else{
+                $data['form-data'].='
                     <div class="form-group">
                      <div><b>'.$bb['ten'].'</b></div>
                      <div class="input-group">
@@ -116,7 +146,7 @@ class Bienban extends CI_Controller {
                         <input type="'.$bb['loai'].'" class="form-control" name="'.$bb['id'].'" value="">
                      </div>
                   </div>
-                ';
+                ';} 
             }
            
         
