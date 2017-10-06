@@ -29,6 +29,7 @@
         <form class="login-form" action="<?php echo base_url();?>login/login/" method="post" id="form">
           <h3 class="login-head"><i class="fa fa-lg fa-fw fa-user"></i>ĐĂNG NHẬP</h3>
           <div><span class="success"><?php if(isset($b_Check) && $b_Check == false){echo "Tài khoản không đúng. Xin vui lòng đăng nhập lại !";}?></span></div>
+          <!-- <input type="hidden" name="<?php echo $this->security->get_csrf_token_name(); ?>" value="<?php echo $this->security->get_csrf_hash(); ?>"> -->
           <div class="form-group">
             <label class="control-label">USERNAME</label>
             <input class="form-control" name="username" type="text" placeholder="Email" autofocus>

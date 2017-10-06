@@ -14,12 +14,12 @@
         </div>
         <div class="row">
           <div class="col-md-12">
-            <form class="form-horizontal" action="<?php echo base_url(); ?>insert_bienban" method="post" enctype="multipart/form-data">
+            <form class="form-horizontal" action="<?php echo base_url(); ?>insert_bienban" method="post" enctype="multipart/form-data" >
               <div class="card">
                 <div class="card-body">
                   <fieldset>
                     <legend>Tạo biên bản mới</legend>
-                    <div><span class="success"><?php if(isset($b_Check) && $b_Check == false){echo "Tài khoản không đúng. Xin vui lòng đăng nhập lại !";}?></span></div>
+                    <!-- <input type="hidden" name="<?php echo $this->security->get_csrf_token_name(); ?>" value="<?php echo $this->security->get_csrf_hash(); ?>"> -->
                     <div class="form-group">
                       <label class="col-lg-2 control-label" for="ten">Tên biên bản</label>
                       <div class="col-lg-10">
@@ -31,6 +31,7 @@
                       <label class="col-lg-2 control-label" for="ten">Chọn biểu mẫu</label>
                       <div class="col-lg-10">
                         <select class="form-control" name="id_bieumau" id="select" onchange="load_bieumau()">
+                          <option value="0">Chọn biểu mẫu</option>
                           <?php foreach ($bieumaus as $bieumau) { ?>
                           <option value="<?php echo $bieumau->id ?>"><?php echo $bieumau->ten ?></option>
                           <?php } ?>
@@ -48,7 +49,7 @@
                 <div class="form-group ">
                   <div class="col-lg-10 col-lg-offset-2">
                     <button class="btn btn-default" type="reset">Hủy bỏ</button>
-                    <button class="btn btn-primary" type="submit">Gửi</button>
+                    <button class="btn btn-primary" id="btn-sub" >Lưu</button>
                   </div>
                 </div>
               </div>
@@ -56,14 +57,29 @@
           </div>
         </div>
       </div>
+     <!--  <script type="text/javascript">
+        var csrf_test_name   = '<?php echo $this->security->get_csrf_hash(); ?>';
+      </script> -->
       <script type="text/javascript">
+        
+        $('#btn-sub').click(function(e) {
+          var id = $('#select').val();
+          if (id==0) {
+            alert('Bạn chưa chọn biểu mẫu');
+            e.preventDefault();
+          }
+        });
+        
         function load_bieumau() {
+          
           var id = $('#select').val();
           $('.load').remove();
+
           $.ajax({
             type:'post',
             url:"<?php echo base_url(); ?>load_dulieu",
-            data: {id: id},
+            data: {
+              'id': id},
             dataType: 'json',
             success: function(data){
               for (var i in data) {
@@ -77,4 +93,5 @@
           });
           
         }
+        
       </script>
