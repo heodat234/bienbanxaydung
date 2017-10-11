@@ -137,7 +137,7 @@ class Bieumau extends CI_Controller {
         for ($i=0; $i < count($variables); $i++) { 
             $var[$i] = preg_replace('/<[^>]+>/', '',$variables[$i]);
             $mData[$i] = explode(";",$var[$i] );
-            $array[$i] =array('id'=>$id, 'ten'=>$mData[$i][0], 'loai'=>$mData[$i][1],'search'=>$var[$i]);
+            $array[$id] =array('id'=>$id, 'ten'=>$mData[$i][0], 'loai'=>$mData[$i][1],'search'=>$var[$i]);
             $id++;
         }
 

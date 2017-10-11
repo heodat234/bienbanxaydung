@@ -46,8 +46,8 @@ class export extends CI_Controller {
                     $objDrawing->setDescription($dl[0]);
                     $objDrawing->setPath('./images/'.$dl[0].'');
                     $objDrawing->setCoordinates(''.$colString.''.$dl['hang'].'');
-                    $objDrawing->setHeight(150);
-                    $objDrawing->setWidth(200);
+                    $objDrawing->setHeight(200);
+                    $objDrawing->setWidth(400);
                     $objDrawing->setWorksheet($objPHPExcel->getActiveSheet());
                  } 
                  else{
@@ -105,8 +105,8 @@ class export extends CI_Controller {
                         $objDrawing->setDescription($dl[0]);
                         $objDrawing->setPath('./images/'.$dl[0].'');
                         $objDrawing->setCoordinates(''.$colString.''.$dl['hang'].'');
-                        $objDrawing->setHeight(150);
-                        $objDrawing->setWidth(280);
+                        $objDrawing->setHeight(200);
+                        $objDrawing->setWidth(400);
                         $objDrawing->setWorksheet($objPHPExcel->getActiveSheet());
                      } 
                      else{
