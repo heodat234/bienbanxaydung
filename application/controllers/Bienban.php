@@ -68,6 +68,7 @@ class Bienban extends CI_Controller {
                     array_push($dulieu[$i] , $this->input->post($i));
                 }
             }
+            $a_data['type_bienban'] = "excel";
         }else{
             for ($i=0; $i < $count-1; $i++) { 
                 if($dulieu[$i]['loai']=='file'){
@@ -76,6 +77,7 @@ class Bienban extends CI_Controller {
                     array_push($dulieu[$i] , $this->input->post($i+1));
                 }
             }
+            $a_data['type_bienban'] = "word";
         }
         
         // var_dump($dulieu);

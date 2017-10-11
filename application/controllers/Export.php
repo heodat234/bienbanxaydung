@@ -87,50 +87,59 @@ class export extends CI_Controller {
 
     public function all_excel()
     {
-        $fileExcel = array();
+        $fileOffice = array();
         $id = $this->session->userdata('user')['id'];
         $data = $this->Bienban_model->select_bienban($id);
         foreach ($data as $da) {
-            $object = new PHPExcel();
-
-            $file = $this->Bienban_model->filename_excel_id($da->id);
-            $objReader = PHPExcel_IOFactory::createReader('Excel2007');
-            $objPHPExcel = $objReader->load('template/'.$file->file.'');
-
-            $objPHPExcel->setActiveSheetIndex(0);
-
             $dulieu = $this->Bienban_model->get_dulieu_id($da->id);
             $filename = stripUnicode($dulieu->ten_bienban);
             $dulieu = unserialize($dulieu->dulieu);
-            // var_dump($dulieu[8]);        
-            foreach ($dulieu as $dl) {
-                if ($dl['loai']=='file') {
-                    $objPHPExcel->getActiveSheet()->setCellValueByColumnAndRow($dl['cot'],$dl['hang'],'');
-                    $colString = PHPExcel_Cell::stringFromColumnIndex($dl['cot']+1);
-                    
-                    $objDrawing = new PHPExcel_Worksheet_Drawing();
-                    $objDrawing->setName($dl[0]);
-                    $objDrawing->setDescription($dl[0]);
-                    $objDrawing->setPath('./images/'.$dl[0].'');
-                    $objDrawing->setCoordinates(''.$colString.''.$dl['hang'].'');
-                    $objDrawing->setHeight(200);
-                    $objDrawing->setWidth(380);
-                    $objDrawing->setWorksheet($objPHPExcel->getActiveSheet());
-                 } 
-                 else{
-                    $objPHPExcel->getActiveSheet()->setCellValueByColumnAndRow($dl['cot'],$dl['hang'],$dl[0]);
+            $file = $this->Bienban_model->filename_id($da->id);
+            if ($da->type_bienban == "excel") {
+               $object = new PHPExcel();
+                $objReader = PHPExcel_IOFactory::createReader('Excel2007');
+                $objPHPExcel = $objReader->load('template/'.$file->file.'');
+                $objPHPExcel->setActiveSheetIndex(0);
+                unset($dulieu['file']);
+                foreach ($dulieu as $dl) {
+                    if ($dl['loai']=='file') {
+                        $objPHPExcel->getActiveSheet()->setCellValueByColumnAndRow($dl['cot'],$dl['hang'],'');
+                        $colString = PHPExcel_Cell::stringFromColumnIndex($dl['cot']+1);
+                        $objDrawing = new PHPExcel_Worksheet_Drawing();
+                        $objDrawing->setName($dl[0]);
+                        $objDrawing->setDescription($dl[0]);
+                        $objDrawing->setPath('./images/'.$dl[0].'');
+                        $objDrawing->setCoordinates(''.$colString.''.$dl['hang'].'');
+                        $objDrawing->setHeight(150);
+                        $objDrawing->setWidth(280);
+                        $objDrawing->setWorksheet($objPHPExcel->getActiveSheet());
+                     } 
+                     else{
+                        $objPHPExcel->getActiveSheet()->setCellValueByColumnAndRow($dl['cot'],$dl['hang'],$dl[0]);
+                    }
                 }
+                $object_writer = PHPExcel_IOFactory::createWriter($objPHPExcel,'Excel2007');
+                $object_writer->save($filename.'.xlsx');
+                array_push($fileOffice, $filename.'.xlsx');
+            }else{
+                $phpWord = new \PhpOffice\PhpWord\PhpWord();
+                $document = $phpWord->loadTemplate('template/'.$file->file.'');
+                unset($dulieu['file']);
+                foreach ($dulieu as $dl) {
+                    
+                    $document->setValue($dl['search'],$dl[0]);
+                }
+                //save file
+                $document->saveAs($filename.'.docx');
+                array_push($fileOffice, $filename.'.docx');
             }
-            $object_writer = PHPExcel_IOFactory::createWriter($objPHPExcel,'Excel2007');
-            $object_writer->save($filename.'.xlsx');
-        
-            array_push($fileExcel, $filename.'.xlsx');
+            
         }
         // var_dump($fileExcel);
         $zipname = 'file.zip';
         $zip = new ZipArchive;
         $zip->open($zipname, ZipArchive::CREATE | ZipArchive::OVERWRITE);
-        foreach ($fileExcel as $file) {
+        foreach ($fileOffice as $file) {
           $zip->addFile($file);
         }
         $zip->close();
@@ -139,7 +148,10 @@ class export extends CI_Controller {
         header('Content-disposition: attachment; filename='.$zipname);
         header('Content-Length: ' . filesize($zipname));
         readfile($zipname);
-        // unset($fileExcel);
+        unlink($zipname);
+        foreach ($fileOffice as $file) {
+          unlink($file);
+        }
     }
 
 
