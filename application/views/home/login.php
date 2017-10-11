@@ -10,7 +10,7 @@
     <link rel="stylesheet" type="text/css" href="<?php echo base_url(); ?>css/main.css">
     <!-- Font-icon css-->
     <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-    <title>Vali Admin</title>
+    <title>Xây Dựng</title>
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries-->
     <!--if lt IE 9
     script(src='https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js')
@@ -42,10 +42,10 @@
             <div class="utility">
               <div class="animated-checkbox">
                 <label class="semibold-text">
-                  <input type="checkbox"><span class="label-text">Stay Signed in</span>
+                  <!-- <input type="checkbox"><span class="label-text">Stay Signed in</span> -->
                 </label>
               </div>
-              <p class="semibold-text mb-0"><a data-toggle="flip">Forgot Password ?</a></p>
+              <!-- <p class="semibold-text mb-0"><a data-toggle="flip">Forgot Password ?</a></p> -->
             </div>
           </div>
           <div class="form-group btn-container">
