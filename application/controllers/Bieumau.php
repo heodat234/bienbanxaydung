@@ -34,6 +34,7 @@ class Bieumau extends CI_Controller {
 		$dulieu = $this->Bieumau_model->select_dulieu_id($id_bieumau);
 		$data['dulieu'] = unserialize($dulieu->dulieu);
 		$data['ten_bieumau'] = $dulieu->ten;
+		$data['type'] = $dulieu->type_bieumau;
 		
 		$this->_data['html_body'] = $this->load->view('page/chitiet_bieumau',$data , TRUE); 
 		$this->load->view('home/master', $this->_data);
@@ -73,8 +74,10 @@ class Bieumau extends CI_Controller {
 			}
 			if ($data["type"] == '.xlsx') {
 				$data = $this->readExcel($a_data["file"]);
+				$a_data['type_bieumau'] = "excel";
 			}else{
 				$data = $this->readWord($a_data["file"]);
+				$a_data['type_bieumau'] = "word";
 			}
 			$a_data['dulieu'] = serialize($data);
 			$this->Bieumau_model->insert_bieumau($a_data);
@@ -96,7 +99,7 @@ class Bieumau extends CI_Controller {
         $highestRow    = $objWorksheet->getHighestRow();
         $highestColumn = $objWorksheet->getHighestColumn();
         $highestColumnIndex = PHPExcel_Cell::columnIndexFromString($highestColumn);
-        $array = array('file' =>'excel' );
+        $array = array();
         $data = array();
         $k=1;
         for ($row = 2; $row <= $highestRow;++$row)
@@ -129,7 +132,7 @@ class Bieumau extends CI_Controller {
         $variables = $document->getVariables();
         $mData =array();
         $var = array();
-        $array = array('file' =>'word' );
+        $array = array();
         $id=1;
         for ($i=0; $i < count($variables); $i++) { 
             $var[$i] = preg_replace('/<[^>]+>/', '',$variables[$i]);
@@ -182,7 +185,6 @@ class Bieumau extends CI_Controller {
     	$id    = $this->input->post('id');
     	$dulieu = $this->Bieumau_model->select_dulieu_id($id);
     	$dulieu = unserialize($dulieu->dulieu);
-    	unset($dulieu['file']);
     	$dulieu = json_encode($dulieu);
     	print_r( $dulieu);
     }

@@ -9,11 +9,12 @@ class Welcome extends CI_Controller {
         $this->load->library('session');
         $this->_data['html_header'] = $this->load->view('home/header', NULL, TRUE);  
         $this->_data['html_menu'] = $this->load->view('home/menu', NULL, TRUE);
+        // $this->_data['html_body'] = $this->load->view('home/index',null,true); 
     }
     public $_data = array();
 	public function index()
-	{		
-			$this->load->view('home/master', $this->_data);
+	{		        
+		return $this->load->view('home/master', $this->_data);
 	}
 	
 }

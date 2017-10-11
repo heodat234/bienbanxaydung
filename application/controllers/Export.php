@@ -18,24 +18,20 @@ class export extends CI_Controller {
     }
 
     public function index() {
-        $this->excel->setActiveSheetIndex(0);
-        // Gets all the data using MY_Model.php
-        $data["users"] = $this->user_model->get_all();
-
-        $this->load->view("excelTable",$data);
+        
     }
-    public function export_excel($id='')
+    public function export_file($id='')
      {
         $dulieu = $this->Bienban_model->get_dulieu_id($id);
         //var_dump($dulieu);
+        $type = $dulieu->type_bienban;
         $filename = stripUnicode($dulieu->ten_bienban);
         $dulieu = unserialize($dulieu->dulieu);
         //var_dump($filename);
-
+        $file = $this->Bienban_model->filename_id($id);
        
-        if ($dulieu['file'] == 'excel') {
+        if ($type == 'excel') {
             $object = new PHPExcel();
-            $file = $this->Bienban_model->filename_excel_id($id);
             $objReader = PHPExcel_IOFactory::createReader('Excel2007');
             $objPHPExcel = $objReader->load('template/'.$file->file.'');
             $objPHPExcel->setActiveSheetIndex(0);
@@ -66,7 +62,6 @@ class export extends CI_Controller {
             $object_writer->save('php://output');
         }else{
             $phpWord = new \PhpOffice\PhpWord\PhpWord();
-            $file = $this->Bienban_model->filename_excel_id($id);
             $document = $phpWord->loadTemplate('template/'.$file->file.'');
             unset($dulieu['file']);
             foreach ($dulieu as $dl) {
@@ -85,7 +80,7 @@ class export extends CI_Controller {
         
     }
 
-    public function all_excel()
+    public function all_file()
     {
         $fileOffice = array();
         $id = $this->session->userdata('user')['id'];
