@@ -58,24 +58,27 @@ class Bienban extends CI_Controller {
         }
 
         $dulieu = $this->Bieumau_model->select_dulieu_id($id_bieumau);
+        $type = $dulieu->type_bieumau;
         $dulieu = unserialize($dulieu->dulieu);
         $count =count($dulieu);
-        if($dulieu['file'] == 'excel'){
-            for ($i=1; $i < $count; $i++) { 
+        if($type == 'excel'){
+            for ($i=1; $i <= $count; $i++) { 
                 if($dulieu[$i]['loai']=='file'){
                  array_push($dulieu[$i] , $data);
                 }else{
                     array_push($dulieu[$i] , $this->input->post($i));
                 }
             }
+            $a_data['type_bienban'] = "excel";
         }else{
-            for ($i=0; $i < $count-1; $i++) { 
+            for ($i=1; $i <= $count; $i++) { 
                 if($dulieu[$i]['loai']=='file'){
                  array_push($dulieu[$i] , $data);
                 }else{
-                    array_push($dulieu[$i] , $this->input->post($i+1));
+                    array_push($dulieu[$i] , $this->input->post($i));
                 }
             }
+            $a_data['type_bienban'] = "word";
         }
         
         // var_dump($dulieu);
@@ -91,7 +94,6 @@ class Bienban extends CI_Controller {
         $id = $this->input->post('id');
         $dulieu = $this->Bienban_model->get_bienban($id);
         $bienban = unserialize($dulieu->dulieu);
-        unset($bienban['file']);
         foreach ($bienban as $bb){
             if(is_array($bb) && array_key_exists('0',$bb)){
                 if($bb['loai']=='file'){
@@ -104,7 +106,7 @@ class Bienban extends CI_Controller {
                         </div>
                         <input type="text" disabled="" class="form-control" id="f_in" value="'.$bb['0'].'">
                         <div class="input-group-addon iga2">
-                           <label class="fa"><b>...</b><input onchange="showFile(this);" type="file" id="file_input" name="'.$bb['id'].'" style="display: none;"></label>
+                           <label class="fa"><b>...</b><input onchange="showFile(this);" type="file" id="file_input" name="image" style="display: none;"></label>
                         </div>
                      </div>
                   </div>
@@ -131,7 +133,7 @@ class Bienban extends CI_Controller {
                         </div>
                         <input type="text" disabled="" class="form-control" id="f_in" value="">
                         <div class="input-group-addon iga2">
-                           <label class="fa"><b>...</b><input onchange="showFile(this);" type="file" id="file_input" name="'.$bb['id'].'" style="display: none;"></label>
+                           <label class="fa"><b>...</b><input onchange="showFile(this);" type="file" id="file_input" name="image" style="display: none;"></label>
                         </div>
                      </div>
                   </div>
@@ -159,28 +161,32 @@ class Bienban extends CI_Controller {
         //var_dump($frm);
         $dulieu = $this->Bienban_model->get_bienban($frm['id']);
         $bienban = unserialize($dulieu->dulieu);
-        if (!empty($_FILES['1']['name'])) {
+        if (!empty($_FILES['image']['name'])) {
             $config['upload_path'] = './images/';
             $config['allowed_types'] = 'jpg|jpeg|png|gif';
-            $config['file_name'] = $_FILES['1']['name'];
+            $config['file_name'] = $_FILES['image']['name'];
 
             $this->load->library('upload', $config);
             $this->upload->initialize($config);
-            if ($this->upload->do_upload('1')) {
+            if ($this->upload->do_upload('image')) {
                 $uploadData = $this->upload->data();
-                $frm['1'] = $uploadData['file_name'];
+                $frm['image'] = $uploadData['file_name'];
             } else{
-                $frm['1'] = '';
+                $frm['image'] = '';
             }
         }else{
-            $frm['1'] = '';
+            $frm['image'] = '';
         }
         // var_dump($frm);
         // echo "</br>";
         // var_dump($bienban);
-        unset($bienban['file']);
-        for ($i=0; $i<count($bienban);$i++) {
-            $bienban[$i]['0'] = $frm[$i+1];
+        for ($i=1; $i<=count($bienban);$i++) {
+            if($bienban[$i]['loai']=='file'){
+                $bienban[$i]['0'] = $frm['image'];
+            }else{
+                $bienban[$i]['0'] = $frm[$i];
+            }
+            
         }
         $udata['dulieu'] = serialize($bienban);
         $udata['ten_bienban'] = $frm['name'];

@@ -44,7 +44,7 @@ class Bienban_model extends CI_Model{
     //     return $query->first_row();
 
      
-    public function filename_Excel_id($id='')
+    public function filename_id($id='')
     {
       $this->db->select('B.file');
       $this->db->from('bienban A');

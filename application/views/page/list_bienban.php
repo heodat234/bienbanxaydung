@@ -8,7 +8,7 @@
               <li class="active"><a href="#">Danh sách biên bản</a></li>
             </ul>
           </div>
-          <div><a class="btn btn-primary btn-flat" href="<?php echo base_url(); ?>tao_bienban"><i class="fa fa-lg fa-plus"></i></a><a class="btn btn-info btn-flat" href="<?php echo base_url(); ?>list_bienban"><i class="fa fa-lg fa-refresh"></i></a><a class="btn btn-warning btn-flat" href="<?php echo base_url(); ?>all_excel"><i class="fa fa-lg fa-file-excel-o"> Excel</i></a></div>
+          <div><a class="btn btn-primary btn-flat" href="<?php echo base_url(); ?>tao_bienban"><i class="fa fa-lg fa-plus"></i></a><a class="btn btn-info btn-flat" href="<?php echo base_url(); ?>list_bienban"><i class="fa fa-lg fa-refresh"></i></a><a class="btn btn-warning btn-flat" href="<?php echo base_url(); ?>all_file"><i class="fa fa-lg fa-file-excel-o"> Xuất tất cả</i></a></div>
         </div>
         <div class="row">
           <div class="col-md-12">
@@ -21,8 +21,8 @@
                       <th>Tên biên bản</th>
                       <th>Ngày tạo</th>
                       <th>Sửa</th>
-                      <th>In</th>
-                      <th>Xuất Excel</th>
+                      <!-- <th>In</th> -->
+                      <th>Xuất File</th>
                       
                     </tr>
                   </thead>
@@ -32,8 +32,8 @@
                           <td id="ten_bb<?php echo $bienban->id;?>"><?php echo $bienban->ten_bienban ?></td>
                           <td id="ngay_cn<?php echo $bienban->id;?>"><?php echo date("d/m/Y H:i:s",strtotime($bienban->created_at))  ?></td>
                           <td><button class="btn btn-info btn-flat" data-toggle="modal" data-target="#edit" data-id='<?php echo $bienban->id;?>' data-name='<?php echo $bienban->ten_bienban;?>'><i class="fa fa-lg fa-eye"></i></button></td>
-                          <td><a class="btn btn-info btn-flat" href=""><i class="fa fa-lg fa-print"></i></a></td>
-                          <td><a class="btn btn-info btn-flat" href="<?php echo base_url().'export_excel/'.$bienban->id ?>"><i class="fa fa-lg fa-file-excel-o"></i></a></td>
+                          <!-- <td><a class="btn btn-info btn-flat" href=""><i class="fa fa-lg fa-print"></i></a></td> -->
+                          <td><a class="btn btn-info btn-flat" href="<?php echo base_url().'export_file/'.$bienban->id ?>"><i class="fa fa-lg fa-file-excel-o"></i></a></td>
                           <!-- <td><a class="btn btn-primary btn-flat" data-toggle="modal" href="#edit"><i class="fa fa-lg fa-pencil"></i></a></td> -->
                         </tr>                    
                     <?php endforeach;?>

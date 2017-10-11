@@ -31,14 +31,14 @@
           <div><span class="success"><?php if(isset($b_Check) && $b_Check == false){echo "Tài khoản không đúng. Xin vui lòng đăng nhập lại !";}?></span></div>
           <!-- <input type="hidden" name="<?php echo $this->security->get_csrf_token_name(); ?>" value="<?php echo $this->security->get_csrf_hash(); ?>"> -->
           <div class="form-group">
-            <label class="control-label">USERNAME</label>
+            <label class="control-label">TÊN ĐĂNG NHẬP</label>
             <input class="form-control" name="username" type="text" placeholder="Email" autofocus>
           </div>
           <div class="form-group">
-            <label class="control-label">PASSWORD</label>
+            <label class="control-label">MẬT KHẨU</label>
             <input class="form-control" name="password" type="password" placeholder="Password">
           </div>
-          <div class="form-group">
+          <!-- <div class="form-group">
             <div class="utility">
               <div class="animated-checkbox">
                 <label class="semibold-text">
@@ -47,13 +47,13 @@
               </div>
               <!-- <p class="semibold-text mb-0"><a data-toggle="flip">Forgot Password ?</a></p> -->
             </div>
-          </div>
+          </div> -->
           <div class="form-group btn-container">
-            <button class="btn btn-primary btn-block"><i class="fa fa-sign-in fa-lg fa-fw"></i>SIGN IN</button>
+            <button class="btn btn-primary btn-block"><i class="fa fa-sign-in fa-lg fa-fw"></i>ĐĂNG NHẬP</button>
           </div>
         </form>
         <form class="forget-form" action="index.html">
-          <h3 class="login-head"><i class="fa fa-lg fa-fw fa-lock"></i>Forgot Password ?</h3>
+          <!-- <h3 class="login-head"><i class="fa fa-lg fa-fw fa-lock"></i>Forgot Password ?</h3> -->
           <div class="form-group">
             <label class="control-label">EMAIL</label>
             <input class="form-control" type="text" placeholder="Email">

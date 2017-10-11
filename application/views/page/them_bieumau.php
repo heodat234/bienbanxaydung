@@ -31,7 +31,7 @@
                         <div class="form-group">
                           <label class="col-lg-2 control-label">File mẫu</label>
                           <div class="col-lg-10">
-                            <input class="form-control" type="file" name="file" required="">
+                            <input class="form-control" type="file" name="file" id="i_file" required="">
                             <div class="error" id="file_error"><?php echo form_error('file')?></div>
                           </div>
                         </div>
@@ -44,7 +44,7 @@
                         <div class="form-group">
                           <div class="col-lg-10 col-lg-offset-2">
                             <button class="btn btn-default" type="reset">Hủy bỏ</button>
-                            <button class="btn btn-primary" type="submit">Gửi</button>
+                            <button class="btn btn-primary" id="i_submit" type="submit">Gửi</button>
                           </div>
                         </div>
                       </fieldset>
@@ -54,3 +54,26 @@
           </div>
         </div>
       </div>
+      <script type="text/javascript">
+        $('#i_submit').click( function(e) {
+           //kiem tra trinh duyet co ho tro File API
+            if (window.File && window.FileReader && window.FileList && window.Blob)
+            {
+              // lay dung luong va kieu file tu the input file
+                var ftype = $('#i_file')[0].files[0].type;
+               // .alert( ftype);
+               switch(ftype)
+                {
+                    case 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet':
+                    case 'application/vnd.openxmlformats-officedocument.wordprocessingml.document':
+                        break;
+                    default:
+                        alert('File chỉ được Excel hoặc Word');
+                        e.preventDefault();
+                }
+         
+            }else{
+                alert("Please upgrade your browser, because your current browser lacks some new features we need!");
+            }
+        });
+      </script>

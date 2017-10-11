@@ -34,6 +34,7 @@ class Bieumau extends CI_Controller {
 		$dulieu = $this->Bieumau_model->select_dulieu_id($id_bieumau);
 		$data['dulieu'] = unserialize($dulieu->dulieu);
 		$data['ten_bieumau'] = $dulieu->ten;
+		$data['type'] = $dulieu->type_bieumau;
 		
 		$this->_data['html_body'] = $this->load->view('page/chitiet_bieumau',$data , TRUE); 
 		$this->load->view('home/master', $this->_data);
@@ -73,8 +74,10 @@ class Bieumau extends CI_Controller {
 			}
 			if ($data["type"] == '.xlsx') {
 				$data = $this->readExcel($a_data["file"]);
-			}if ($data["type"] == '.docx'){
+				$a_data['type_bieumau'] = "excel";
+			}else{
 				$data = $this->readWord($a_data["file"]);
+				$a_data['type_bieumau'] = "word";
 			}
 			$a_data['dulieu'] = serialize($data);
 			$this->Bieumau_model->insert_bieumau($a_data);
@@ -96,29 +99,25 @@ class Bieumau extends CI_Controller {
         $highestRow    = $objWorksheet->getHighestRow();
         $highestColumn = $objWorksheet->getHighestColumn();
         $highestColumnIndex = PHPExcel_Cell::columnIndexFromString($highestColumn);
-        $array = array('file' =>'excel' );
+        $array = array();
         $data = array();
+        $k=1;
         for ($row = 2; $row <= $highestRow;++$row)
         {
             for ($col = 0; $col <$highestColumnIndex-1;++$col)
             {
                 $value=$objWorksheet->getCellByColumnAndRow($col, $row)->getValue();
-                $value = trim($value,'( )');
-                if (substr($value, 0,4) == "vung") {    //tim nhung chuoi co chu vung
-                	if ($col==0) {
-                		$ten=$objWorksheet->getCellByColumnAndRow($col, $row-1)->getValue();
-                	}else{
-                		$ten=$objWorksheet->getCellByColumnAndRow($col-1, $row)->getValue();
-                	}
-                    if ($ten=='') {
-                        $ten=$objWorksheet->getCellByColumnAndRow($col, $row-1)->getValue();
-                    }
-                    $k= substr($value, 4,1);//lấy so vung
-                    $type = substr($value, 6); //lay loai du lieu can nhap
-                    $array[$k] =array('id'=>$k, 'ten'=>$ten, 'loai'=>$type, 'cot'=>$col, 'hang'=>$row);
+                
+                if (substr($value, 0,2) == '${' && substr($value,-1) == '}') {    //tim nhung chuoi co chu vung
+                	$value = trim($value,'${ }');
+                	$mData = explode(";", $value);
+                    $array[$k] =array('id'=>$k, 'ten'=>$mData[0], 'loai'=>$mData[1], 'cot'=>$col, 'hang'=>$row);
+                    $k++;
                 }
             }
         }
+        echo("<br>");
+        print_r($array);
         //$data['title'] = $array;
         // echo $data['content'] = $arraydata;
         return $array;
@@ -133,12 +132,12 @@ class Bieumau extends CI_Controller {
         $variables = $document->getVariables();
         $mData =array();
         $var = array();
-        $array = array('file' =>'word' );
+        $array = array();
         $id=1;
         for ($i=0; $i < count($variables); $i++) { 
             $var[$i] = preg_replace('/<[^>]+>/', '',$variables[$i]);
-            $mData[$i] = explode(",",$var[$i] );
-            $array[$i] =array('id'=>$id, 'ten'=>$mData[$i][0], 'loai'=>$mData[$i][1],'search'=>$var[$i]);
+            $mData[$i] = explode(";",$var[$i] );
+            $array[$id] =array('id'=>$id, 'ten'=>$mData[$i][0], 'loai'=>$mData[$i][1],'search'=>$var[$i]);
             $id++;
         }
 
@@ -186,7 +185,6 @@ class Bieumau extends CI_Controller {
     	$id    = $this->input->post('id');
     	$dulieu = $this->Bieumau_model->select_dulieu_id($id);
     	$dulieu = unserialize($dulieu->dulieu);
-    	unset($dulieu['file']);
     	$dulieu = json_encode($dulieu);
     	print_r( $dulieu);
     }

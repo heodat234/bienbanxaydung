@@ -22,7 +22,6 @@
                 <li><a href="<?php echo base_url(); ?>tao_bienban"><i class="fa fa-circle-o"></i>Tạo biên bản mới</a></li>
               </ul>
             </li>
-            <!-- <li class="active"><a href="<?php echo base_url(); ?>word"><i class="fa fa-dashboard"></i><span>word</span></a></li> -->
           </ul>
         </section>
       </aside>

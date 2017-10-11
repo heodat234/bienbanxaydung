@@ -20,7 +20,7 @@
                     <tr>
                       <th>Tên vùng dữ liệu</th>
                       <th>Loại dữ liệu</th>
-                      <?php if ($dulieu['file'] == 'excel') {
+                      <?php if ($type == 'excel') {
                         echo '<th>Vị trí xuất Excel (cột:hàng)</th>';
                       }else{
                         echo '<th>Tên biến</th>';
@@ -31,7 +31,7 @@
                   <tbody>
                     <?php
                     // var_dump($dulieu);
-                    if ($dulieu['file'] == 'excel') {
+                    if ($type == 'excel') {
                       for ($i=1; $i < count($dulieu); $i++) { ?>
                         <tr>
                           <td><?php echo $dulieu[$i]['ten'] ?></td>
@@ -39,7 +39,7 @@
                           <td>(<?php echo $dulieu[$i]['cot'].':'.$dulieu[$i]['hang'] ?>)</td>
                         </tr>
                       <?php } }else{ 
-                          for ($i=0; $i < count($dulieu)-1; $i++) { ?>
+                          for ($i=1; $i < count($dulieu); $i++) { ?>
                           <tr>
                             <td><?php echo $dulieu[$i]['ten'] ?></td>
                             <td><?php echo $dulieu[$i]['loai'] ?></td>
