@@ -125,4 +125,10 @@ $('#edit').on('show.bs.modal', function(e) {
   });
 });
 
+function showFile(fileName) {
+    if (fileName.files && fileName.files[0]) {
+        $('#f_in').val(fileName.files[0].name);
+    }
+}
+
 </script>
