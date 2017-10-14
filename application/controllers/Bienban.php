@@ -104,7 +104,7 @@ class Bienban extends CI_Controller {
                         <div class="input-group-addon iga2">
                            <span class="glyphicon glyphicon-edit"></span>
                         </div>
-                        <input type="text" disabled="" class="form-control" id="f_in" value="'.$bb['0'].'">
+                        <input type="text" disabled="" name = "'.$bb['id'].'" class="form-control" id="f_in" value="'.$bb['0'].'">
                         <div class="input-group-addon iga2">
                            <label class="fa"><b>...</b><input onchange="showFile(this);" type="file" id="file_input" name="image" style="display: none;"></label>
                         </div>
@@ -131,7 +131,7 @@ class Bienban extends CI_Controller {
                         <div class="input-group-addon iga2">
                            <span class="glyphicon glyphicon-edit"></span>
                         </div>
-                        <input type="text" disabled="" class="form-control" id="f_in" value="">
+                        <input type="text" disabled="" name = "'.$bb['id'].'" class="form-control" id="f_in" value="">
                         <div class="input-group-addon iga2">
                            <label class="fa"><b>...</b><input onchange="showFile(this);" type="file" id="file_input" name="image" style="display: none;"></label>
                         </div>
@@ -158,9 +158,9 @@ class Bienban extends CI_Controller {
 
     public function update_bien_ban(){
         $frm = $this->input->post();
-        //var_dump($frm);
         $dulieu = $this->Bienban_model->get_bienban($frm['id']);
         $bienban = unserialize($dulieu->dulieu);
+        $data = array();
         if (!empty($_FILES['image']['name'])) {
             $config['upload_path'] = './images/';
             $config['allowed_types'] = 'jpg|jpeg|png|gif';
@@ -175,7 +175,8 @@ class Bienban extends CI_Controller {
         }
         // var_dump($frm);
         // echo "</br>";
-        // var_dump($bienban);
+        // var_dump($bienban));
+        
         for ($i=1; $i<=count($bienban);$i++) {
             if($bienban[$i]['loai']=='file'){
                 if (isset($frm['image']) && $frm['image'] != '') {

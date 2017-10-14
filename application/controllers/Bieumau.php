@@ -44,7 +44,7 @@ class Bieumau extends CI_Controller {
 		$this->_data['html_body'] = $this->load->view('page/them_bieumau', NULL, TRUE);  
 		$this->load->view('home/master', $this->_data);
 	}
-	public function them()
+	public function insert()
 	{
 		$this->form_validation->set_rules('ten', 'Tên biểu mẫu', 'trim|required|xss_clean');
 		// $this->form_validation->set_rules('file', 'File mẫu ', 'required');
@@ -55,7 +55,13 @@ class Bieumau extends CI_Controller {
 			$a_data['mota'] = $this->input->post('mota');
 
 			if (!empty($_FILES['file']['name'])) {
-			$config['upload_path'] = './template/';
+			//Kiểm tra tồn tại thư mục
+			if (!is_dir('template/'.$a_data['id_user']))
+			{
+			   //Tạo thư mục
+				mkdir('template/'.$a_data['id_user']);
+			}
+			$config['upload_path'] = './template/'.$a_data['id_user'];
 			$config['allowed_types'] = 'xlsx|docx';
 			$config['file_name'] = $_FILES['file']['name'];
 			$this->load->library('upload', $config);
@@ -92,8 +98,9 @@ class Bieumau extends CI_Controller {
 	function readExcel($filename)
     {
         $object = new PHPExcel();
+        $id = $this->session->userdata('user')['id'];
         $objReader = PHPExcel_IOFactory::createReader('Excel2007');
-        $objPHPExcel = $objReader->load('template/'.$filename.'');
+        $objPHPExcel = $objReader->load('template/'.$id.'/'.$filename.'');
 
         $objWorksheet  = $objPHPExcel->setActiveSheetIndex(0);
         $highestRow    = $objWorksheet->getHighestRow();
@@ -111,6 +118,9 @@ class Bieumau extends CI_Controller {
                 if (substr($value, 0,2) == '${' && substr($value,-1) == '}') {    //tim nhung chuoi co chu vung
                 	$value = trim($value,'${ }');
                 	$mData = explode(";", $value);
+                	if ($mData[1] == "text") {
+                		$mData[1] == "textarea";
+                	}
                     $array[$k] =array('id'=>$k, 'ten'=>$mData[0], 'loai'=>$mData[1], 'cot'=>$col, 'hang'=>$row);
                     $k++;
                 }
@@ -127,8 +137,8 @@ class Bieumau extends CI_Controller {
     function readWord($filename)
     {
     	$phpWord = new \PhpOffice\PhpWord\PhpWord();
-
-        $document = $phpWord->loadTemplate('template/'.$filename.'');
+    	$id = $this->session->userdata('user')['id'];
+        $document = $phpWord->loadTemplate('template'.$id.'/'.$filename.'');
         $variables = $document->getVariables();
         $mData =array();
         $var = array();

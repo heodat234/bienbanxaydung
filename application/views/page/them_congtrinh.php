@@ -4,37 +4,37 @@
 <div class="content-wrapper">
         <div class="page-title">
           <div>
-            <h1>Thêm biểu mẫu</h1>
+            <h1>Thêm công trình</h1>
             <ul class="breadcrumb side">
               <li><i class="fa fa-home fa-lg"></i></li>
               <li>Trang chủ</li>
-              <li class="active"><a href="#">Thêm biểu mẫu</a></li>
+              <li class="active"><a href="#">Thêm công trình</a></li>
             </ul>
           </div>
-          <!-- <div><a class="btn btn-primary btn-flat" href="#"><i class="fa fa-lg fa-plus"></i></a><a class="btn btn-info btn-flat" href="#"><i class="fa fa-lg fa-refresh"></i></a><a class="btn btn-warning btn-flat" href="#"><i class="fa fa-lg fa-trash"></i></a></div> -->
+          <div><a class="btn btn-primary btn-flat" href="#"><i class="fa fa-lg fa-plus"></i></a><a class="btn btn-info btn-flat" href="#"><i class="fa fa-lg fa-refresh"></i></a><a class="btn btn-warning btn-flat" href="#"><i class="fa fa-lg fa-trash"></i></a></div>
         </div>
         <div class="row">
           <div class="col-md-12">
             <div class="card">
               <div class="card-body">
-                <form class="form-horizontal" action="<?php echo base_url(); ?>insert_bieumau" method="post" enctype="multipart/form-data">
+                <form class="form-horizontal" action="<?php echo base_url(); ?>insert_congtrinh" method="post" enctype="multipart/form-data">
                       <fieldset>
-                        <legend>Thêm biểu mẫu</legend>
+                        <legend>Thêm công trình</legend>
                         <div><span class="success"><?php if(isset($b_Check) && $b_Check == false){echo "Thêm thất bại. Vui lòng nhập lại !";}?></span></div>
                         <div class="form-group">
-                          <label class="col-lg-2 control-label" for="ten">Tên biểu mẫu</label>
+                          <label class="col-lg-2 control-label" for="ten">Tên công trình</label>
                           <div class="col-lg-10">
-                            <input class="form-control" name="ten" id="ten" type="text" placeholder="tên biểu mẫu" value="<?php echo set_value('ten')?>">
+                            <input class="form-control" name="ten" id="ten" type="text" placeholder="tên công trình" value="<?php echo set_value('ten')?>">
                             <div class="error" id="ten_error"><?php echo form_error('ten')?></div>
                           </div>
                         </div>    
-                        <div class="form-group">
+                        <!-- <div class="form-group">
                           <label class="col-lg-2 control-label">File mẫu</label>
                           <div class="col-lg-10">
                             <input class="form-control" type="file" name="file" id="i_file" required="">
                             <div class="error" id="file_error"><?php echo form_error('file')?></div>
                           </div>
-                        </div>
+                        </div> -->
                         <div class="form-group">
                           <label class="col-lg-2 control-label" for="inputPassword">Mô tả</label>
                           <div class="col-lg-10">
@@ -54,7 +54,7 @@
           </div>
         </div>
       </div>
-      <script type="text/javascript">
+     <!--  <script type="text/javascript">
         $('#i_submit').click( function(e) {
            //kiem tra trinh duyet co ho tro File API
             if (window.File && window.FileReader && window.FileList && window.Blob)
@@ -76,4 +76,4 @@
                 alert("Please upgrade your browser, because your current browser lacks some new features we need!");
             }
         });
-      </script>
+      </script> -->
