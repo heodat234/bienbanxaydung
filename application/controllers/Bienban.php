@@ -171,18 +171,16 @@ class Bienban extends CI_Controller {
             if ($this->upload->do_upload('image')) {
                 $uploadData = $this->upload->data();
                 $frm['image'] = $uploadData['file_name'];
-            } else{
-                $frm['image'] = '';
-            }
-        }else{
-            $frm['image'] = '';
+            } 
         }
         // var_dump($frm);
         // echo "</br>";
         // var_dump($bienban);
         for ($i=1; $i<=count($bienban);$i++) {
             if($bienban[$i]['loai']=='file'){
-                $bienban[$i]['0'] = $frm['image'];
+                if (isset($frm['image']) && $frm['image'] != '') {
+                    $bienban[$i]['0'] = $frm['image'];
+                }
             }else{
                 $bienban[$i]['0'] = $frm[$i];
             }

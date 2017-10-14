@@ -42,10 +42,10 @@
             <div class="utility">
               <div class="animated-checkbox">
                 <label class="semibold-text">
-                  <!-- <input type="checkbox"><span class="label-text">Stay Signed in</span> -->
+                  <input type="checkbox"><span class="label-text">Stay Signed in</span>
                 </label>
               </div>
-              <!-- <p class="semibold-text mb-0"><a data-toggle="flip">Forgot Password ?</a></p> -->
+              <p class="semibold-text mb-0"><a data-toggle="flip">Forgot Password ?</a></p>
             </div>
           </div> -->
           <div class="form-group btn-container">
