@@ -59,8 +59,7 @@ $route['login/success'] 		= "Login/success";
 $route['list_bieumau'] 		= "Bieumau/list_bieumau";
 $route['chitiet_bieumau/(:num)'] 		= "Bieumau/chitiet_bieumau/$1";
 $route['them_bieumau'] 		= "Bieumau/them_bieumau";
-$route['them'] 		= "Bieumau/them";
-$route['them'] 		        = "Bieumau/them";
+$route['insert_bieumau'] 		= "Bieumau/insert";
 $route['list_bienban'] 		= "Bienban/list_bienban";
 $route['tao_bienban'] 		= "Bienban/tao_bienban";
 $route['insert_bienban'] 		= "Bienban/insert_bienban";
@@ -68,4 +67,7 @@ $route['load_dulieu'] 		= "Bieumau/select_dulieu";
 
 $route['export_file/(:num)'] 		= "Export/export_file/$1";
 $route['all_file'] 		= "Export/all_file";
-$route['word'] 		= "Export/word_demo";
+
+$route['list_congtrinh'] 		= "Congtrinh/list_congtrinh";
+$route['them_congtrinh'] 		= "Congtrinh/them_congtrinh";
+$route['insert_congtrinh'] 		= "Congtrinh/insert";

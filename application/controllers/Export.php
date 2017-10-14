@@ -65,7 +65,12 @@ class export extends CI_Controller {
             $document = $phpWord->loadTemplate('template/'.$file->file.'');
             unset($dulieu['file']);
             foreach ($dulieu as $dl) {
-                
+                if ($dl['loai'] == "file") {
+                    $document->setImg($dl['search'], [
+                      "src"=>'images/'.$dl[0],
+                      "swh"=>"200"
+                    ]);
+                }
                 $document->setValue($dl['search'],$dl[0]);
             }
             //save file

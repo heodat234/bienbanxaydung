@@ -1,14 +1,14 @@
 <div class="content-wrapper">
         <div class="page-title">
           <div>
-            <h1>Danh sách biểu mẫu</h1>
+            <h1>Danh sách công trình</h1>
             <ul class="breadcrumb side">
               <li><i class="fa fa-home fa-lg"></i></li>
               <li>Trang chủ</li>
-              <li class="active"><a href="#">Danh sách biểu mẫu</a></li>
+              <li class="active"><a href="#">Danh sách công trình</a></li>
             </ul>
           </div>
-          <!-- <div><a class="btn btn-primary btn-flat" href="#"><i class="fa fa-lg fa-plus"></i></a><a class="btn btn-info btn-flat" href="#"><i class="fa fa-lg fa-refresh"></i></a><a class="btn btn-warning btn-flat" href="#"><i class="fa fa-lg fa-trash"></i></a></div> -->
+          <div><a class="btn btn-primary btn-flat" href="#"><i class="fa fa-lg fa-plus"></i></a><a class="btn btn-info btn-flat" href="#"><i class="fa fa-lg fa-refresh"></i></a><a class="btn btn-warning btn-flat" href="#"><i class="fa fa-lg fa-trash"></i></a></div>
         </div>
         <div class="row">
           <div class="col-md-12">
@@ -18,22 +18,22 @@
                   <thead>
                     <tr>
                       
-                      <th>Tên biểu mẫu</th>
-                      <th>File mẫu</th>
+                      <th>Tên công trình</th>
+                      <!-- <th>File mẫu</th> -->
                       <th>Mô tả</th>
-                      <th>Xem chi tiết</th>
+                      <th>Ngày tạo</th>
                       <th>Sửa</th>
                     </tr>
                   </thead>
                   <tbody>
-                    <?php foreach ($bieumaus as $bieumau): ?>
+                    <?php foreach ($congtrinh as $ct): ?>
                         <tr>
                          
-                          <td id="ten_bm<?php echo $bieumau->id?>"><?php echo $name=$bieumau->ten ?></td>
-                          <td id="file_bm<?php echo $bieumau->id?>"><?php echo $file=$bieumau->file ?></td>
-                          <td id="mota_bm<?php echo $bieumau->id?>"><?php echo $desc=$bieumau->mota ?></td>
-                          <td><a class="btn btn-info btn-flat" href="<?php echo base_url().'chitiet_bieumau/'.$bieumau->id ?>"><i class="fa fa-lg fa-eye"></i></a></td>
-                          <td><a class="btn btn-primary btn-flat" data-toggle="modal" data-name="<?php echo $name;?>" data-file="<?php echo $file;?>" data-id="<?php echo $bieumau->id;?>" data-desc="<?php echo $desc;?>" href="#edit"><i class="fa fa-lg fa-pencil"></i></a></td>
+                          <td id="ten_ct<?php echo $ct->id?>"><?php echo $name=$ct->ten ?></td>
+                          <!-- <td id="file_bm<?php echo $ct->id?>"><?php echo $file=$bieumau->file ?></td> -->
+                          <td id="mota_ct<?php echo $ct->id?>"><?php echo $desc=$ct->mota ?></td>
+                          <th id="ngay_ct<?php echo $ct->id?>"><?php echo $ct->created_at ?></th>
+                          <td><a class="btn btn-primary btn-flat" data-toggle="modal" data-name="<?php echo $name;?>"  data-id="<?php echo $ct->id;?>" data-desc="<?php echo $desc;?>" href="#edit"><i class="fa fa-lg fa-pencil"></i></a></td>
                         </tr>                    
                     <?php endforeach;?>
                   </tbody>
@@ -48,7 +48,7 @@
            <div class="modal-content">
               <div class="modal-header">
                  <button type="button" class="close" data-dismiss='modal' aria-hidden="true"><span class="glyphicon glyphicon-remove"></span></button>
-                 <h4 class="modal-title" style="font-size: 20px; padding: 12px;"> Sửa biểu mẫu </h4>
+                 <h4 class="modal-title" style="font-size: 20px; padding: 12px;"> Sửa công trình </h4>
               </div>
               <form method="post" id="edit-form">
               <div class="modal-body">
@@ -72,7 +72,7 @@
                                 <input type="text" class="form-control" name="desc">
                              </div>
                           </div>
-                          <div class="form-group">
+                          <!-- <div class="form-group">
                              <div class="input-group">
                                 <div class="input-group-addon iga2">
                                    <span class="glyphicon glyphicon-file"></span>
@@ -82,7 +82,7 @@
                                    <label class="glyphicon">Browse...<input onchange="showFile(this);" type="file" id="file_input" name="file_input" style="display: none;"></label>
                                 </div>
                              </div>
-                          </div>
+                          </div> -->
                        </div>
                     </div>
                  </div>
@@ -100,27 +100,27 @@
           </div>
         </div>
 <script type="text/javascript">
-function showFile(fileName) {
-    if (fileName.files && fileName.files[0]) {
-        $('#f_in').val(fileName.files[0].name);
-    }
-}
+// function showFile(fileName) {
+//     if (fileName.files && fileName.files[0]) {
+//         $('#f_in').val(fileName.files[0].name);
+//     }
+// }
 //triggered when modal is about to be shown
 $('#edit').on('show.bs.modal', function(e) {
     //get data-id attribute of the clicked element
-    var id_bm = $(e.relatedTarget).data('id');
+    var id_ct = $(e.relatedTarget).data('id');
     var name = $(e.relatedTarget).data('name');
-    var file = $(e.relatedTarget).data('file');
+    // var file = $(e.relatedTarget).data('file');
     var desc = $(e.relatedTarget).data('desc');
 
     //populate the textbox
     $(e.currentTarget).find('input[name="name"]').val(name);
-    $(e.currentTarget).find('input[name="id"]').val(id_bm);
+    $(e.currentTarget).find('input[name="id"]').val(id_ct);
     $(e.currentTarget).find('input[name="desc"]').val(desc);
-    $(e.currentTarget).find('input[name="file"]').val(file);
+    // $(e.currentTarget).find('input[name="file"]').val(file);
 
     $('#btn-sbmt').one('click',function(){
-    var route="<?= base_url()?>bieumau/edit_bieu_mau/";
+    var route="<?= base_url()?>Congtrinh/edit_congtrinh/";
     var frm = new FormData($('form#edit-form')[0]);
         $.ajax({
         url:route,
@@ -132,19 +132,18 @@ $('#edit').on('show.bs.modal', function(e) {
         success:function(data) { 
           //console.log(data[0].file);
           var changeName = document.getElementsByName("name")[0].value;
-          var changeFile = data[0].file;
+          // var changeFile = data[0].file;
           var changeDesc = document.getElementsByName("desc")[0].value;
-          $('#ten_bm'+id_bm).html(changeName);
-          $('#file_bm'+id_bm).html(changeFile);
-          $('#mota_bm'+id_bm).html(changeDesc);
-          // $('#ten_bm'+id_bm).html(document.getElementsByName("name")[0].value);
-          // $('#file_bm'+id_bm).html(document.getElementsByName("file")[0].value);
-          // $('#mota_bm'+id_bm).html(document.getElementsByName("desc")[0].value);
+          $('#ten_ct'+id_ct).html(changeName);
+          // $('#file_bm'+id_bm).html(changeFile);
+          $('#mota_ct'+id_ct).html(changeDesc);
+          
           $('#edit-form').removeData();
           $('#file_input').val('');
           $(e.relatedTarget).data('name',changeName);
-          $(e.relatedTarget).data('file',changeFile);
+          // $(e.relatedTarget).data('file',changeFile);
           $(e.relatedTarget).data('desc',changeDesc);
+          $('#ngay_ct'+id_ct).html(data.created_at);
         }
     });
   });
