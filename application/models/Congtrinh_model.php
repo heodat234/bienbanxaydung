@@ -28,12 +28,6 @@ class Congtrinh_model extends CI_Model{
       $this->db->where('id',$id)
               ->update("congtrinh",$data);
      }
-    public function select_dulieu_id($id='')
-    {
-        $this->db->select('*')->where('id',$id); 
-        $query=$this->db->get("congtrinh"); 
-        return $query->first_row();
-
-    }
+    
     
 }

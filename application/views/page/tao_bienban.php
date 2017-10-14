@@ -28,6 +28,17 @@
                       </div>
                     </div> 
                     <div class="form-group ">
+                      <label class="col-lg-2 control-label" for="ten">Chọn công trình</label>
+                      <div class="col-lg-10">
+                        <select required="" class="form-control" name="id_congtrinh" id="ct" >
+                          <option value="0" >Chọn công trình</option>
+                          <?php foreach ($congtrinh as $ct) { ?>
+                          <option value="<?php echo $ct->id ?>"><?php echo $ct->ten ?></option>
+                          <?php } ?>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="form-group ">
                       <label class="col-lg-2 control-label" for="ten">Chọn biểu mẫu</label>
                       <div class="col-lg-10">
                         <select required="" class="form-control" name="id_bieumau" id="select" onchange="load_bieumau()">
@@ -65,6 +76,11 @@
           var id = $('#select').val();
           if (id==0) {
             alert('Bạn chưa chọn biểu mẫu');
+            e.preventDefault();
+          }
+          var id_ct = $('#ct').val();
+          if (id_ct==0) {
+            alert('Bạn chưa chọn công trình');
             e.preventDefault();
           }
         });

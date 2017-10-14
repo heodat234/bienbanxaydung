@@ -12,6 +12,7 @@ class Bienban extends CI_Controller {
 		$this->load->helper('security');
 		$this->load->model(array('Bienban_model'));
         $this->load->model(array('Bieumau_model'));
+        $this->load->model(array('Congtrinh_model'));
         $this->_data['html_header'] = $this->load->view('home/header', NULL, TRUE);  
         $this->_data['html_menu'] = $this->load->view('home/menu', NULL, TRUE);
     }
@@ -29,6 +30,7 @@ class Bienban extends CI_Controller {
     {
         $id = $this->session->userdata('user')['id'];
         $this->data['bieumaus'] = $this->Bieumau_model->select_bieumau($id);
+        $this->data['congtrinh'] = $this->Congtrinh_model->select_congtrinh($id);
         $this->_data['html_body'] = $this->load->view('page/tao_bienban', $this->data, TRUE);  
         $this->load->view('home/master', $this->_data);
     }

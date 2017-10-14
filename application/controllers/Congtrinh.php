@@ -115,12 +115,4 @@ class Congtrinh extends CI_Controller {
     }
 
     
-    public function select_dulieu()
-    {
-    	$id    = $this->input->post('id');
-    	$dulieu = $this->Congtrinh_model->select_dulieu_id($id);
-    	// $dulieu = unserialize($dulieu->dulieu);
-    	$dulieu = json_encode($dulieu);
-    	print_r( $dulieu);
-    }
 }	
