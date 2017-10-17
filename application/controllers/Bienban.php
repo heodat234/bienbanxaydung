@@ -10,6 +10,7 @@ class Bienban extends CI_Controller {
         $this->load->helper(array('form', 'url'));
 		$this->load->library(array('form_validation','session'));
 		$this->load->helper('security');
+        $this->load->helper('My_helper');
 		$this->load->model(array('Bienban_model'));
         $this->load->model(array('Bieumau_model'));
         $this->load->model(array('Congtrinh_model'));
@@ -21,7 +22,12 @@ class Bienban extends CI_Controller {
     public function list_bienban()
     {
         $id = $this->session->userdata('user')['id'];
-        $this->data['bienbans'] = $this->Bienban_model->select_bienban($id); 
+        $bienbans = $this->Bienban_model->select_bienban($id);
+        for ($i=0; $i < count($bienbans); $i++) { 
+            $kodau = stripUnicode($bienbans[$i]['ten_bienban']);
+            array_push($bienbans[$i], $kodau);
+         } 
+         $this->data['bienbans'] = $bienbans;
         $this->_data['html_body'] = $this->load->view('page/list_bienban', $this->data, TRUE); 
 
         $this->load->view('home/master', $this->_data);
@@ -40,6 +46,7 @@ class Bienban extends CI_Controller {
         $a_data['ten_bienban'] = $this->input->post('ten');
         $a_data['id_user'] = $this->session->userdata('user')['id'];
         $id_bieumau = $this->input->post('id_bieumau');
+        $a_data['id_congtrinh'] = $this->input->post('id_congtrinh');
         $a_data['id_bieumau'] = $id_bieumau;
 
         if (!empty($_FILES['image']['name'])) {

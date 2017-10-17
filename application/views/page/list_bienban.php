@@ -14,14 +14,15 @@
           <div class="col-md-12">
             <div class="card">
               <div class="card-body">
-                <table class="table table-hover table-bordered" id="sampleTable">
+                <table class="table table-hover table-bordered" id="tableBB">
                   <thead>
                     <tr>
                       
                       <th>Tên biên bản</th>
+                      <th>Tên công trình</th>
                       <th>Ngày tạo</th>
                       <th>Sửa</th>
-                      <!-- <th>In</th> -->
+                      <th>Xem</th>
                       <th>Xuất File</th>
                       
                     </tr>
@@ -29,11 +30,13 @@
                   <tbody>
                     <?php foreach ($bienbans as $bienban): ?>
                         <tr>
-                          <td id="ten_bb<?php echo $bienban->id;?>"><?php echo $bienban->ten_bienban ?></td>
-                          <td id="ngay_cn<?php echo $bienban->id;?>"><?php echo date("d/m/Y H:i:s",strtotime($bienban->created_at))  ?></td>
-                          <td><button class="btn btn-info btn-flat" data-toggle="modal" data-target="#edit" data-id='<?php echo $bienban->id;?>' data-name='<?php echo $bienban->ten_bienban;?>'><i class="fa fa-lg fa-eye"></i></button></td>
-                          <!-- <td><a class="btn btn-info btn-flat" href=""><i class="fa fa-lg fa-print"></i></a></td> -->
-                          <td><a class="btn btn-info btn-flat" href="<?php echo base_url().'export_file/'.$bienban->id ?>"><i class="fa fa-lg fa-file-excel-o"></i></a></td>
+                          <td id="ten_bb<?php echo $bienban['id'];?>"><?php echo $bienban['ten_bienban'] ?></td>
+                          <td id="ten_bb<?php echo $bienban['id'];?>"><?php echo $bienban['ten'] ?></td>
+                          <td id="ngay_cn<?php echo $bienban['id'];?>"><?php echo date("d/m/Y H:i:s",strtotime($bienban['created_at']))  ?></td>
+                          <td><button class="btn btn-info btn-flat" data-toggle="modal" data-target="#edit" data-id='<?php echo $bienban['id'];?>' data-name='<?php echo $bienban['ten_bienban'];?>'><i class="fa fa-lg fa-eye"></i></button></td>
+                          <!-- <td><a class="media btn btn-info btn-flat" href="<?php echo $bienban[0]; ?>.pdf"><i class="fa fa-lg fa-print"></i></a> </td> -->
+                          <td><a class="btn btn-info btn-flat" href="<?php echo base_url().'view_file/'.$bienban['id'] ?>"><i class="fa fa-lg fa-print"></i></a></td>
+                          <td><a class="btn btn-info btn-flat" href="<?php echo base_url().'export_file/'.$bienban['id'] ?>"><i class="fa fa-lg fa-file-excel-o"></i></a></td>
                           <!-- <td><a class="btn btn-primary btn-flat" data-toggle="modal" href="#edit"><i class="fa fa-lg fa-pencil"></i></a></td> -->
                         </tr>                    
                     <?php endforeach;?>
@@ -86,6 +89,10 @@
           </div>
         </div>
 <script type="text/javascript">
+  $('a.media').media({width:500, height:400});
+
+  
+
 $('#edit').on('show.bs.modal', function(e) {
   //get data-id attribute of the clicked element
   var id_bb = $(e.relatedTarget).data('id');
@@ -130,5 +137,38 @@ function showFile(fileName) {
         $('#f_in').val(fileName.files[0].name);
     }
 }
-
+</script>
+<script type="text/javascript">
+  $(document).ready(function() {
+  var table = $('#tableBB').DataTable({
+        "columnDefs": [
+            { "visible": false, "targets": 1 }
+        ],
+        "order": [[ 1, 'asc' ]],
+        "displayLength": 25,
+        "drawCallback": function ( settings ) {
+            var api = this.api();
+            var rows = api.rows( {page:'current'} ).nodes();
+            var last=null;
+            api.column(1, {page:'current'} ).data().each( function ( group, i ) {
+                if ( last !== group ) {
+                    $(rows).eq( i ).before(
+                        '<tr class="group" style="background-color: #CFCFCF"><td colspan="5">'+group+'</td></tr>'
+                    );
+ 
+                    last = group;
+                }
+            } );
+        }
+    } );
+    $('#tableBB tbody').on( 'click', 'tr.group', function () {
+        var currentOrder = table.order()[0];
+        if ( currentOrder[0] === 1 && currentOrder[1] === 'asc' ) {
+            table.order( [ 1, 'desc' ] ).draw();
+        }
+        else {
+            table.order( [ 1, 'asc' ] ).draw();
+        }
+    } );
+});
 </script>

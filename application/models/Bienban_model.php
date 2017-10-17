@@ -9,9 +9,13 @@ class Bienban_model extends CI_Model{
     
    public function select_bienban($id)
    {
-   $this->db->select('*')->where('id_user',$id); 
-        $query=$this->db->get("bienban"); 
-        return $query->result();
+    $this->db->select('B.ten,B.id,A.ten_bienban,A.id,A.created_at');
+      $this->db->from('bienban A');
+      $this->db->where('A.id_user',$id);
+      $this->db->order_by("A.created_at","desc");
+      $this->db->join('congtrinh B','A.id_congtrinh = B.id');
+      $query = $this->db->get();
+        return $query->result_array();
    }
 
    public function get_bienban($id)

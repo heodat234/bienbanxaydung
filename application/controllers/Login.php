@@ -29,7 +29,7 @@ class Login extends CI_Controller{
 			$a_UserChecking = $this->Login_model->a_fCheckUser( $a_UserInfo );
 			if($a_UserChecking){
 				$this->session->set_userdata('user', $a_UserChecking);
-				redirect(base_url('welcome'));
+				redirect(base_url('list_bienban'));
 			}else{
 				$this->b_Check = false;
 			}
