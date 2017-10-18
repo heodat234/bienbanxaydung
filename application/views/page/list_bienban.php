@@ -34,8 +34,8 @@
                           <td id="ten_bb<?php echo $bienban['id'];?>"><?php echo $bienban['ten'] ?></td>
                           <td id="ngay_cn<?php echo $bienban['id'];?>"><?php echo date("d/m/Y H:i:s",strtotime($bienban['created_at']))  ?></td>
                           <td><button class="btn btn-info btn-flat" data-toggle="modal" data-target="#edit" data-id='<?php echo $bienban['id'];?>' data-name='<?php echo $bienban['ten_bienban'];?>'><i class="fa fa-lg fa-eye"></i></button></td>
-                          <td><a class="media btn btn-info btn-flat" href='http://docs.google.com/viewer?url=<?php echo base_url().$bienban['0'];?>'><i class="fa fa-lg fa-print"></i></a> </td>
-                          <!-- <td><a class="btn btn-info btn-flat" href="<?php echo base_url().'view_file/'.$bienban['id'] ?>"><i class="fa fa-lg fa-print"></i></a></td> -->
+                          <!-- <td><a class="media btn btn-info btn-flat" href='http://docs.google.com/viewer?url=<?php echo base_url().$bienban['0'];?>'><i class="fa fa-lg fa-print"></i></a> </td> -->
+                          <td><button class="btn btn-info btn-flat" onclick="viewFile(<?php echo $bienban['id'];?>)" ><i class="fa fa-lg fa-print"></i></button></td>
                           <td><a class="btn btn-info btn-flat" href="<?php echo base_url().'export_file/'.$bienban['id'] ?>"><i class="fa fa-lg fa-file-excel-o"></i></a></td>
                           <!-- <td><a class="btn btn-primary btn-flat" data-toggle="modal" href="#edit"><i class="fa fa-lg fa-pencil"></i></a></td> -->
                         </tr>                    
@@ -136,6 +136,19 @@ function showFile(fileName) {
     if (fileName.files && fileName.files[0]) {
         $('#f_in').val(fileName.files[0].name);
     }
+}
+
+function viewFile(id) {
+  var route='<?php echo base_url().'view_file/' ?>'+id;
+  $.ajax({
+    url:route,
+    type:'post',
+    dataType:'json',
+    data:null,
+    success:function(data) { 
+      window.location = 'http://docs.google.com/viewer?url=<?php echo base_url();?>'+data;
+    }
+  });
 }
 </script>
 <script type="text/javascript">
