@@ -139,12 +139,12 @@ function showFile(fileName) {
 }
 
 function viewFile(id) {
-  var route='<?php echo base_url().'view_file/' ?>'+id;
+  var route='<?php echo base_url().'view_file' ?>';
   $.ajax({
     url:route,
     type:'post',
     dataType:'json',
-    data:null,
+    data:{id:id},
     success:function(data) { 
       window.location = 'http://docs.google.com/viewer?url=<?php echo base_url();?>'+data;
     }

@@ -72,4 +72,4 @@ $route['list_congtrinh'] 		= "Congtrinh/list_congtrinh";
 $route['them_congtrinh'] 		= "Congtrinh/them_congtrinh";
 $route['insert_congtrinh'] 		= "Congtrinh/insert";
 
-$route['view_file/(:num)'] 		= "PrintFile/view_file/$1";
+$route['view_file'] 		= "PrintFile/view_file";

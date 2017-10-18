@@ -22,8 +22,9 @@ class PrintFile extends CI_Controller {
     public function index() {
         
     }
-    public function view_file($id='')
+    public function view_file()
      {
+        $id = $this->input->post('id');
         $id_user = $this->session->userdata('user')['id'];
         $dulieu = $this->Bienban_model->get_dulieu_id($id);
         //var_dump($dulieu);
