@@ -119,7 +119,7 @@ class Bieumau extends CI_Controller {
                 	$value = trim($value,'${ }');
                 	$mData = explode(";", $value);
                 	if ($mData[1] == "text") {
-                		$mData[1] == "textarea";
+                		$mData[1] = "textarea";
                 	}
                     $array[$k] =array('id'=>$k, 'ten'=>$mData[0], 'loai'=>$mData[1], 'cot'=>$col, 'hang'=>$row);
                     $k++;
@@ -138,7 +138,7 @@ class Bieumau extends CI_Controller {
     {
     	$phpWord = new \PhpOffice\PhpWord\PhpWord();
     	$id = $this->session->userdata('user')['id'];
-        $document = $phpWord->loadTemplate('template'.$id.'/'.$filename.'');
+        $document = $phpWord->loadTemplate('template/'.$id.'/'.$filename.'');
         $variables = $document->getVariables();
         $mData =array();
         $var = array();
@@ -147,6 +147,9 @@ class Bieumau extends CI_Controller {
         for ($i=0; $i < count($variables); $i++) { 
             $var[$i] = preg_replace('/<[^>]+>/', '',$variables[$i]);
             $mData[$i] = explode(";",$var[$i] );
+            if ($mData[$i][1] == "text") {
+                $mData[$i][1] = "textarea";
+            }
             $array[$id] =array('id'=>$id, 'ten'=>$mData[$i][0], 'loai'=>$mData[$i][1],'search'=>$var[$i]);
             $id++;
         }

@@ -9,8 +9,10 @@ class Excel extends PHPExcel {
 
     public function __construct() {
         parent::__construct();
+        
     }
-
+     
+            
     // public function load($path) {
     //     $objReader = PHPExcel_IOFactory::createReader('Excel5');
     //     $this->excel = $objReader->load($path);

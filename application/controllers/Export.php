@@ -4,6 +4,8 @@ if (!defined('BASEPATH'))
 
 class export extends CI_Controller {
 
+
+
     public function __construct() {
         parent::__construct();
         $this->load->helper('url');
@@ -22,6 +24,7 @@ class export extends CI_Controller {
     }
     public function export_file($id='')
      {
+        $id_user = $this->session->userdata('user')['id'];
         $dulieu = $this->Bienban_model->get_dulieu_id($id);
         //var_dump($dulieu);
         $type = $dulieu->type_bienban;
@@ -33,7 +36,7 @@ class export extends CI_Controller {
         if ($type == 'excel') {
             $object = new PHPExcel();
             $objReader = PHPExcel_IOFactory::createReader('Excel2007');
-            $objPHPExcel = $objReader->load('template/'.$file->file.'');
+            $objPHPExcel = $objReader->load('template/'.$id_user.'/'.$file->file.'');
             $objPHPExcel->setActiveSheetIndex(0);
             unset($dulieu['file']);
             // var_dump($dulieu);
@@ -54,15 +57,23 @@ class export extends CI_Controller {
                     $objPHPExcel->getActiveSheet()->setCellValueByColumnAndRow($dl['cot'],$dl['hang'],$dl[0]);
                 }
             }
+            $objPHPExcel->getActiveSheet()->getPageSetup()->setOrientation(PHPExcel_Worksheet_PageSetup::ORIENTATION_PORTRAIT);
+            $objPHPExcel->getActiveSheet()->getPageSetup()->setPaperSize(PHPExcel_Worksheet_PageSetup::PAPERSIZE_A4);
+            $objPHPExcel->getActiveSheet()->getPageSetup()->setFitToPage(true);
+            $objPHPExcel->getActiveSheet()->getPageSetup()->setFitToWidth(1);
+            $objPHPExcel->getActiveSheet()->getPageSetup()->setFitToHeight(0);                          
             $object_writer = PHPExcel_IOFactory::createWriter($objPHPExcel,'Excel2007');
             ob_end_clean();
             header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
             header('Content-Disposition: attachment; filename='.$filename.'.xlsx');
             header('Cache-Control: max-age=0');
             $object_writer->save('php://output');
+            
+
+exit;
         }else{
             $phpWord = new \PhpOffice\PhpWord\PhpWord();
-            $document = $phpWord->loadTemplate('template/'.$file->file.'');
+            $document = $phpWord->loadTemplate('template/'.$id_user.'/'.$file->file.'');
             unset($dulieu['file']);
             foreach ($dulieu as $dl) {
                 if ($dl['loai'] == "file") {
@@ -98,7 +109,7 @@ class export extends CI_Controller {
             if ($da->type_bienban == "excel") {
                $object = new PHPExcel();
                 $objReader = PHPExcel_IOFactory::createReader('Excel2007');
-                $objPHPExcel = $objReader->load('template/'.$file->file.'');
+                $objPHPExcel = $objReader->load('template/'.$id.'/'.$file->file.'');
                 $objPHPExcel->setActiveSheetIndex(0);
                 unset($dulieu['file']);
                 foreach ($dulieu as $dl) {
@@ -123,7 +134,7 @@ class export extends CI_Controller {
                 array_push($fileOffice, $filename.'.xlsx');
             }else{
                 $phpWord = new \PhpOffice\PhpWord\PhpWord();
-                $document = $phpWord->loadTemplate('template/'.$file->file.'');
+                $document = $phpWord->loadTemplate('template/'.$id.'/'.$file->file.'');
                 unset($dulieu['file']);
                 foreach ($dulieu as $dl) {
                     
