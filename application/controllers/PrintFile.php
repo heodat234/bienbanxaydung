@@ -83,7 +83,7 @@ class PrintFile extends CI_Controller {
             // // $object_writer->setPaperSize(PHPExcel_Worksheet_PageSetup::PAPERSIZE_A4_TRANSVERSE_PAPER );
             $object_writer->save($filename.'.xlsx');
             // echo '<iframe src="https://view.officeapps.live.com/op/embed.aspx?src=http://localhost:8080/bienbanxaydung/cv.docx" width="1366px" height="623px" frameborder="0">This is an embedded <a target="_blank" href="http://office.com">Microsoft Office</a> document, powered by <a target="_blank" href="http://office.com/webapps">Office Online</a>.</iframe>';
-            echo '<iframe src="http://docs.google.com/a/icosvn/viewer?url=http://icosvn.com/hosoduan/cv.docx"></iframe>';
+            echo '<iframe src="http://docs.google.com/viewer?url=http://icosvn.com/hosoduan/cv.docx"></iframe>';
         }else{
             // $rendererName = \PhpOffice\PhpWord\Settings::PDF_RENDERER_TCPDF;
             // $rendererLibrary = 'tcpdf';
