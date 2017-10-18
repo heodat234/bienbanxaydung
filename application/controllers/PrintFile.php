@@ -1,7 +1,7 @@
 <?php
 if (!defined('BASEPATH'))
     exit('No direct script access allowed');
-
+require_once APPPATH.'/libraries/PhpWord/IOFactory.php';
 class PrintFile extends CI_Controller {
 
     public function __construct() {
@@ -57,7 +57,7 @@ class PrintFile extends CI_Controller {
                     $objPHPExcel->getActiveSheet()->setCellValueByColumnAndRow($dl['cot'],$dl['hang'],$dl[0]);
                 }
             }
-            $data = pdf_create($objPHPExcel, 'hung');
+            // $data = pdf_create($objPHPExcel, 'hung');
             // $rendererName = PHPExcel_Settings::PDF_RENDERER_TCPDF;
             // $rendererLibrary = 'tcpdf';
             // $rendererLibraryPath = '' . $rendererLibrary;
@@ -71,21 +71,23 @@ class PrintFile extends CI_Controller {
             //   'at the top of this script as appropriate for your directory structure'
             //  );
             // }
-            // $objPHPExcel->getActiveSheet()->setShowGridlines(false);
-            // // $objPHPExcel->getActiveSheet()->getPageSetup()->setOrientation(PHPExcel_Worksheet_PageSetup::ORIENTATION_LANDSCAPE);
-            // $objPHPExcel->getActiveSheet()->getPageSetup()->setPaperSize(PHPExcel_Worksheet_PageSetup::PAPERSIZE_A4_TRANSVERSE_PAPER );
-            // // $objPHPExcel->getActiveSheet()->getPageSetup()->setScale(50);
-            // // $objPHPExcel->getDefaultStyle()->getFont()->setName('Arial')->setSize(10);
-            // $object_writer = PHPExcel_IOFactory::createWriter($objPHPExcel,'PDF');
-            // // ob_end_clean();
+            $objPHPExcel->getActiveSheet()->setShowGridlines(false);
+            // $objPHPExcel->getActiveSheet()->getPageSetup()->setOrientation(PHPExcel_Worksheet_PageSetup::ORIENTATION_LANDSCAPE);
+            // $objPHPExcel->getActiveSheet()->getPageSetup()->setPaperSize(PHPExcel_Worksheet_PageSetup::PAPERSIZE_A2_PAPER );
+            // $objPHPExcel->getActiveSheet()->getPageSetup()->setScale(50);
+            // $objPHPExcel->getDefaultStyle()->getFont()->setName('Arial')->setSize(10);
+            $object_writer = PHPExcel_IOFactory::createWriter($objPHPExcel,'Excel2007');
+            ob_end_clean();
             // // $object_writer->setOrientation(PHPExcel_Worksheet_PageSetup::ORIENTATION_DEFAULT);
 
             // // $object_writer->setPaperSize(PHPExcel_Worksheet_PageSetup::PAPERSIZE_A4_TRANSVERSE_PAPER );
-            // $object_writer->save($filename.'.pdf');
+            $object_writer->save($filename.'.xlsx');
+            // echo '<iframe src="https://view.officeapps.live.com/op/embed.aspx?src=http://localhost:8080/bienbanxaydung/cv.docx" width="1366px" height="623px" frameborder="0">This is an embedded <a target="_blank" href="http://office.com">Microsoft Office</a> document, powered by <a target="_blank" href="http://office.com/webapps">Office Online</a>.</iframe>';
+            echo '<iframe src="http://docs.google.com/a/icosvn/viewer?url=http://icosvn.com/hosoduan/cv.docx"></iframe>';
         }else{
-            $rendererName = \PhpOffice\PhpWord\Settings::PDF_RENDERER_TCPDF;
-            $rendererLibrary = 'tcpdf';
-            $rendererLibraryPath = '' . $rendererLibrary;
+            // $rendererName = \PhpOffice\PhpWord\Settings::PDF_RENDERER_TCPDF;
+            // $rendererLibrary = 'tcpdf';
+            // $rendererLibraryPath = '' . $rendererLibrary;
             $phpWord = new \PhpOffice\PhpWord\PhpWord();
             $document = $phpWord->loadTemplate('template/'.$id_user.'/'.$file->file.'');
             unset($dulieu['file']);
@@ -99,22 +101,13 @@ class PrintFile extends CI_Controller {
                 $document->setValue($dl['search'],$dl[0]);
             }
             //save file
+             
             
-            if (!\PhpOffice\PhpWord\Settings::setPdfRenderer(
-              $rendererName,
-              $rendererLibraryPath
-             )) {
-             die(
-              'NOTICE: Please set the $rendererName and $rendererLibraryPath values' .
-              '<br />' .
-              'at the top of this script as appropriate for your directory structure'
-             );
-            }
-             $object_writer = \PhpOffice\PhpWord\IOFactory::createWriter($document , 'PDF');
-             $object_writer->saveAs($filename.'.pdf');
+             // $object_writer = \PhpOffice\PhpWord\IOFactory::createWriter($document , 'HTML');
+            
         }
 
-       $this->load->view('page/viewFile'); 
+       // $this->load->view('page/viewFile'); 
         
     }
 }
