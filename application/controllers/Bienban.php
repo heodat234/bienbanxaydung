@@ -41,7 +41,7 @@ class Bienban extends CI_Controller {
         $a_data['id_user'] = $this->session->userdata('user')['id'];
         $id_bieumau = $this->input->post('id_bieumau');
         $a_data['id_bieumau'] = $id_bieumau;
-
+        $a_data['id_congtrinh'] = $this->input->post('id_congtrinh');
         if (!empty($_FILES['image']['name'])) {
             $config['upload_path'] = './images/';
             $config['allowed_types'] = 'jpg|jpeg|png|gif';
