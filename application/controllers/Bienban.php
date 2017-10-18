@@ -25,8 +25,14 @@ class Bienban extends CI_Controller {
         $bienbans = $this->Bienban_model->select_bienban($id);
         for ($i=0; $i < count($bienbans); $i++) { 
             $kodau = stripUnicode($bienbans[$i]['ten_bienban']);
-            array_push($bienbans[$i], $kodau);
+            if ($bienbans[$i]['type_bienban'] == 'excel') {
+                $file_name = $kodau.'.xlsx';
+            }else{
+                $file_name = $kodau.'.docx';
+            }
+            array_push($bienbans[$i], $file_name);
          } 
+         // var_dump($bienbans);
          $this->data['bienbans'] = $bienbans;
         $this->_data['html_body'] = $this->load->view('page/list_bienban', $this->data, TRUE); 
 
