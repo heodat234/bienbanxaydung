@@ -98,7 +98,9 @@
             success: function(data){
               for (var i in data) {
                 if (data[i].loai=='file') {
-                  $('.dulieu').before( '<div class="form-group load"> <label class="col-lg-2 control-label">'+data[i].ten+'</label><div class="col-lg-10"><input class="form-control" name="image" id="ten" type='+data[i].loai+' required ></div></div>' );
+                  $('.dulieu').before( '<div class="form-group load"> <label class="col-lg-2 control-label">'+data[i].ten+'</label><div class="col-lg-10"><input class="form-control" name='+data[i].id+' id="ten" type='+data[i].loai+' required ></div></div>' );
+                }else if(data[i].loai=='textarea'){
+                  $('.dulieu').before( '<div class="form-group load"> <label class="col-lg-2 control-label">'+data[i].ten+'</label><div class="col-lg-10"><textarea class="form-control" name='+data[i].id+' id="ten"  required ></textarea></div></div>' );
                 }else{
                   $('.dulieu').before( '<div class="form-group load"> <label class="col-lg-2 control-label">'+data[i].ten+'</label><div class="col-lg-10"><input class="form-control" name='+data[i].id+' id="ten" type='+data[i].loai+' required ></div></div>' );
                 }

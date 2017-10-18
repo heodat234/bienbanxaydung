@@ -52,7 +52,7 @@
            <div class="modal-content">
               <div class="modal-header">
                  <button type="button" class="close" data-dismiss='modal' aria-hidden="true"><span class="glyphicon glyphicon-remove"></span></button>
-                 <h4 class="modal-title" style="font-size: 20px; padding: 12px;"> Sửa biểu mẫu </h4>
+                 <h4 class="modal-title" style="font-size: 20px; padding: 12px;"> Sửa biên bản </h4>
               </div>
               <form method="post" id="edit-form">
               <div class="modal-body">
@@ -89,7 +89,7 @@
           </div>
         </div>
 <script type="text/javascript">
-  $('a.media').media({width:500, height:400});
+  // $('a.media').media({width:500, height:400});
 
   
 

@@ -57,6 +57,11 @@ class export extends CI_Controller {
                     $objPHPExcel->getActiveSheet()->setCellValueByColumnAndRow($dl['cot'],$dl['hang'],$dl[0]);
                 }
             }
+            $objPHPExcel->getActiveSheet()->getPageSetup()->setOrientation(PHPExcel_Worksheet_PageSetup::ORIENTATION_PORTRAIT);
+            $objPHPExcel->getActiveSheet()->getPageSetup()->setPaperSize(PHPExcel_Worksheet_PageSetup::PAPERSIZE_A4);
+            $objPHPExcel->getActiveSheet()->getPageSetup()->setFitToPage(true);
+            $objPHPExcel->getActiveSheet()->getPageSetup()->setFitToWidth(1);
+            $objPHPExcel->getActiveSheet()->getPageSetup()->setFitToHeight(0);                          
             $object_writer = PHPExcel_IOFactory::createWriter($objPHPExcel,'Excel2007');
             ob_end_clean();
             header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
