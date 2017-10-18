@@ -64,6 +64,7 @@ class PrintFile extends CI_Controller {
             ob_end_clean();
            
             $object_writer->save($filename.'.xlsx');
+
             $data['filename'] = $filename.'.xlsx';
 
         }else{
@@ -87,7 +88,9 @@ class PrintFile extends CI_Controller {
             
         }
 
+
        echo json_encode($data['filename']);
+
         
     }
 }
