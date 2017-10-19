@@ -146,7 +146,7 @@ function viewFile(id) {
     dataType:'json',
     data:{id:id},
     success:function(data) { 
-      window.location = 'http://docs.google.com/viewer?url=<?php echo base_url();?>'+data;
+      window.location = 'http://view.officeapps.live.com/op/view.aspx?src=<?php echo base_url() ?>'+data;
     }
   });
 }
