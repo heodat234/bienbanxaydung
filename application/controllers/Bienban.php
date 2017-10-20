@@ -23,16 +23,6 @@ class Bienban extends CI_Controller {
     {
         $id = $this->session->userdata('user')['id'];
         $bienbans = $this->Bienban_model->select_bienban($id);
-        for ($i=0; $i < count($bienbans); $i++) { 
-            $kodau = stripUnicode($bienbans[$i]['ten_bienban']);
-            if ($bienbans[$i]['type_bienban'] == 'excel') {
-                $file_name = $kodau.'.xlsx';
-            }else{
-                $file_name = $kodau.'.docx';
-            }
-            array_push($bienbans[$i], $file_name);
-         } 
-         // var_dump($bienbans);
          $this->data['bienbans'] = $bienbans;
         $this->_data['html_body'] = $this->load->view('page/list_bienban', $this->data, TRUE); 
 
@@ -206,9 +196,17 @@ class Bienban extends CI_Controller {
     public function update_bien_ban(){
         $frm = $this->input->post();
         $dulieu = $this->Bienban_model->get_bienban($frm['id']);
+        $type_file = $dulieu->type_bienban;
+        if($type_file == 'excel') {
+            $filename = stripUnicode($dulieu->ten_bienban).'.xlsx';
+        }else{
+            $filename = stripUnicode($dulieu->ten_bienban).'.docx';
+        }
+        if (file_exists($filename)) {
+            unlink($filename);
+        }
         $bienban = unserialize($dulieu->dulieu);
         $da = array();
-        
         
         for ($i=1; $i<=count($bienban);$i++) {
             if($bienban[$i]['loai']=='file'){

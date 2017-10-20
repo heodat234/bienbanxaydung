@@ -25,12 +25,10 @@ class export extends CI_Controller {
     public function export_file($id='')
      {
         $id_user = $this->session->userdata('user')['id'];
-        $dulieu = $this->Bienban_model->get_dulieu_id($id);
-        //var_dump($dulieu);
+        $dulieu = $this->Bienban_model->get_bienban($id);
         $type = $dulieu->type_bienban;
         $filename = stripUnicode($dulieu->ten_bienban);
         $dulieu = unserialize($dulieu->dulieu);
-        //var_dump($filename);
         $file = $this->Bienban_model->filename_id($id);
        
         if ($type == 'excel') {
@@ -39,7 +37,6 @@ class export extends CI_Controller {
             $objPHPExcel = $objReader->load('template/'.$id_user.'/'.$file->file.'');
             $objPHPExcel->setActiveSheetIndex(0);
             unset($dulieu['file']);
-            // var_dump($dulieu);
             foreach ($dulieu as $dl) {
                 if ($dl['loai']=='file') {
                     $objPHPExcel->getActiveSheet()->setCellValueByColumnAndRow($dl['cot'],$dl['hang'],'');
@@ -68,9 +65,7 @@ class export extends CI_Controller {
             header('Content-Disposition: attachment; filename='.$filename.'.xlsx');
             header('Cache-Control: max-age=0');
             $object_writer->save('php://output');
-            
-
-exit;
+            exit;
         }else{
             $phpWord = new \PhpOffice\PhpWord\PhpWord();
             $document = $phpWord->loadTemplate('template/'.$id_user.'/'.$file->file.'');
@@ -91,9 +86,6 @@ exit;
             readfile('temp.docx');
             unlink('temp.docx'); 
         }
-
-        
-        
     }
 
     public function all_file()
@@ -146,7 +138,6 @@ exit;
             }
             
         }
-        // var_dump($fileExcel);
         $zipname = 'file.zip';
         $zip = new ZipArchive;
         $zip->open($zipname, ZipArchive::CREATE | ZipArchive::OVERWRITE);

@@ -9,7 +9,6 @@ class PrintFile extends CI_Controller {
         $this->load->helper('url');
         $this->load->helper('date');
         $this->load->helper('My_helper');
-        $this->load->helper(array('dompdf_helper', 'file'));
         // Load the Library
         $this->load->library("excel");
         $this->load->library('word');
@@ -26,12 +25,10 @@ class PrintFile extends CI_Controller {
      {
         $id = $this->input->post('id');
         $id_user = $this->session->userdata('user')['id'];
-        $dulieu = $this->Bienban_model->get_dulieu_id($id);
-        //var_dump($dulieu);
+        $dulieu = $this->Bienban_model->get_bienban($id);
         $type = $dulieu->type_bienban;
         $filename = stripUnicode($dulieu->ten_bienban);
         $dulieu = unserialize($dulieu->dulieu);
-        //var_dump($filename);
         $file = $this->Bienban_model->filename_id($id);
         $data = array();
         if ($type == 'excel') {
@@ -40,7 +37,6 @@ class PrintFile extends CI_Controller {
             $objPHPExcel = $objReader->load('template/'.$id_user.'/'.$file->file.'');
             $objPHPExcel->setActiveSheetIndex(0);
             unset($dulieu['file']);
-            // var_dump($dulieu);
             foreach ($dulieu as $dl) {
                 if ($dl['loai']=='file') {
                     $objPHPExcel->getActiveSheet()->setCellValueByColumnAndRow($dl['cot'],$dl['hang'],'');
@@ -58,18 +54,12 @@ class PrintFile extends CI_Controller {
                     $objPHPExcel->getActiveSheet()->setCellValueByColumnAndRow($dl['cot'],$dl['hang'],$dl[0]);
                 }
             }
-            
             $objPHPExcel->getActiveSheet()->setShowGridlines(false);
-            
             $object_writer = PHPExcel_IOFactory::createWriter($objPHPExcel,'Excel2007');
             ob_end_clean();
-           
             $object_writer->save($filename.'.xlsx');
-
             $data['filename'] = $filename.'.xlsx';
-
         }else{
-           
             $phpWord = new \PhpOffice\PhpWord\PhpWord();
             $document = $phpWord->loadTemplate('template/'.$id_user.'/'.$file->file.'');
             unset($dulieu['file']);
@@ -84,14 +74,8 @@ class PrintFile extends CI_Controller {
             }
             //save file
              $document->saveAs($filename.'.docx');
-            
              $data['filename'] = $filename.'.docx';
-            
         }
-
-
-       echo json_encode($data['filename']);
-
-        
+       echo json_encode($data['filename']);  
     }
 }

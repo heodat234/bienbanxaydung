@@ -128,8 +128,6 @@ class Bieumau extends CI_Controller {
         }
         echo("<br>");
         print_r($array);
-        //$data['title'] = $array;
-        // echo $data['content'] = $arraydata;
         return $array;
     }
 
