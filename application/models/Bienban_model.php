@@ -9,7 +9,7 @@ class Bienban_model extends CI_Model{
     
    public function select_bienban($id)
    {
-    $this->db->select('B.ten,B.id,A.ten_bienban,A.id,A.created_at,A.type_bienban');
+    $this->db->select('B.ten,B.id as id_congtrinh,A.ten_bienban,A.id,A.created_at,A.type_bienban');
       $this->db->from('bienban A');
       $this->db->where('A.id_user',$id);
       $this->db->order_by("A.created_at","desc");

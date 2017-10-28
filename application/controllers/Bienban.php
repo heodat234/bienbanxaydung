@@ -22,8 +22,8 @@ class Bienban extends CI_Controller {
     public function list_bienban()
     {
         $id = $this->session->userdata('user')['id'];
-        $bienbans = $this->Bienban_model->select_bienban($id);
-         $this->data['bienbans'] = $bienbans;
+         $this->data['bienbans'] = $this->Bienban_model->select_bienban($id);
+         $this->data['congtrinh'] = $this->Congtrinh_model->select_congtrinh($id);
         $this->_data['html_body'] = $this->load->view('page/list_bienban', $this->data, TRUE); 
 
         $this->load->view('home/master', $this->_data);
@@ -230,6 +230,7 @@ class Bienban extends CI_Controller {
         }
         $udata['dulieu'] = serialize($bienban);
         $udata['ten_bienban'] = $frm['name'];
+        $udata['id_congtrinh'] = $frm['congtrinh'];
         $this->Bienban_model->update_data_bien_ban($frm['id'],$udata);
         $data['date'] = $this->Bienban_model->get_time_update($frm['id']);
 

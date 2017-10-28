@@ -33,7 +33,7 @@
                           <td id="ten_bb<?php echo $bienban['id'];?>"><?php echo $bienban['ten_bienban'] ?></td>
                           <td id="ten_bb<?php echo $bienban['id'];?>"><?php echo $bienban['ten'] ?></td>
                           <td id="ngay_cn<?php echo $bienban['id'];?>"><?php echo date("d/m/Y H:i:s",strtotime($bienban['created_at']))  ?></td>
-                          <td><button class="btn btn-info btn-flat" data-toggle="modal" data-target="#edit" data-id='<?php echo $bienban['id'];?>' data-name='<?php echo $bienban['ten_bienban'];?>'><i class="fa fa-lg fa-eye"></i></button></td>
+                          <td><button class="btn btn-info btn-flat" data-toggle="modal" data-target="#edit" data-id='<?php echo $bienban['id'];?>' data-name='<?php echo $bienban['ten_bienban'];?>' data-congtrinh='<?php echo $bienban['id_congtrinh'];?>'><i class="fa fa-lg fa-eye"></i></button></td>
                           <!-- <td><a class="media btn btn-info btn-flat" href='http://docs.google.com/viewer?url=<?php echo base_url().$bienban['0'];?>'><i class="fa fa-lg fa-print"></i></a> </td> -->
                           <td><button class="btn btn-info btn-flat" onclick="viewFile(<?php echo $bienban['id'];?>)" ><i class="fa fa-lg fa-print"></i></button></td>
                           <td><a class="btn btn-info btn-flat" href="<?php echo base_url().'export_file/'.$bienban['id'] ?>"><i class="fa fa-lg fa-file-excel-o"></i></a></td>
@@ -70,6 +70,21 @@
                              </div>
                           </div>
                        </div>
+                       <div class="col-xs-12 col-sm-12 col-md-12">
+                          <div class="form-group">
+                             <div><b>Tên công trình</b></div>
+                             <div class="input-group">
+                                <div class="input-group-addon iga2">
+                                   <span class="glyphicon glyphicon-folder-open"></span>
+                                </div>
+                                <Select class=" select_congtrinh form-control"  name="congtrinh" >
+                                  <?php foreach ($congtrinh as $ct) { ?>
+                                    <option value="<?php echo $ct->id ?>"><?php echo $ct->ten ?></option>
+                                  <?php } ?>
+                              </Select>
+                             </div>
+                          </div>
+                       </div>
                        <div class="col-xs-12 col-sm-12 col-md-12" id="form-data">
                           
                        </div>
@@ -97,10 +112,12 @@ $('#edit').on('show.bs.modal', function(e) {
   //get data-id attribute of the clicked element
   var id_bb = $(e.relatedTarget).data('id');
   var ten_bb = $(e.relatedTarget).data('name');
+  var id_congtrinh = $(e.relatedTarget).data('congtrinh');
   var route = "<?= base_url()?>bienban/edit_bien_ban/";
   //populate the textbox
   $(e.currentTarget).find('input[name="id"]').val(id_bb);
   $(e.currentTarget).find('input[name="name"]').val(ten_bb);
+  $('.select_congtrinh option[value="'+id_congtrinh+'"]').prop('selected','selected');
 
   $.ajax({
     url:route,
