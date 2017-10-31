@@ -32,14 +32,14 @@
                     <?php
                     // var_dump($dulieu);
                     if ($type == 'excel') {
-                      for ($i=1; $i < count($dulieu); $i++) { ?>
+                      for ($i=1; $i <= count($dulieu); $i++) { ?>
                         <tr>
                           <td><?php echo $dulieu[$i]['ten'] ?></td>
                           <td><?php echo $dulieu[$i]['loai'] ?></td>
                           <td>(<?php echo $dulieu[$i]['cot'].':'.$dulieu[$i]['hang'] ?>)</td>
                         </tr>
                       <?php } }else{ 
-                          for ($i=1; $i < count($dulieu); $i++) { ?>
+                          for ($i=1; $i <= count($dulieu); $i++) { ?>
                           <tr>
                             <td><?php echo $dulieu[$i]['ten'] ?></td>
                             <td><?php echo $dulieu[$i]['loai'] ?></td>

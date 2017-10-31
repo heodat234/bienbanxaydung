@@ -41,12 +41,12 @@ class Bienban_model extends CI_Model{
       $this->db->where('id',$id)
               ->update('bienban',$data);
      }
-    // public function select_dulieu_id($id='')
-    // {
-    //     $this->db->select('ten,dulieu')->where('id',$id); 
-    //     $query=$this->db->get("bieumau"); 
-    //     return $query->first_row();
-
+    public function select_bienban_idUser($id='')
+    {
+        $this->db->select('id,type_bienban')->where('id_user',$id); 
+        $query=$this->db->get("bienban"); 
+        return $query->result();
+    }
      
     public function filename_id($id='')
     {

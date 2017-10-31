@@ -100,11 +100,11 @@
           </div>
         </div>
 <script type="text/javascript">
-function showFile(fileName) {
-    if (fileName.files && fileName.files[0]) {
-        $('#f_in').val(fileName.files[0].name);
-    }
-}
+  function showFile(fileName) {
+      if (fileName.files && fileName.files[0]) {
+          $('#f_in').val(fileName.files[0].name);
+      }
+  }
 //triggered when modal is about to be shown
 $('#edit').on('show.bs.modal', function(e) {
     //get data-id attribute of the clicked element
@@ -130,9 +130,9 @@ $('#edit').on('show.bs.modal', function(e) {
         dataType:'json',
         data:frm,
         success:function(data) { 
-          //console.log(data[0].file);
           var changeName = document.getElementsByName("name")[0].value;
-          var changeFile = data[0].file;
+          var changeFile = data;
+          
           var changeDesc = document.getElementsByName("desc")[0].value;
           $('#ten_bm'+id_bm).html(changeName);
           $('#file_bm'+id_bm).html(changeFile);
@@ -145,7 +145,11 @@ $('#edit').on('show.bs.modal', function(e) {
           $(e.relatedTarget).data('name',changeName);
           $(e.relatedTarget).data('file',changeFile);
           $(e.relatedTarget).data('desc',changeDesc);
-        }
+        },
+        error: function (xhr, ajaxOptions, thrownError) {
+        alert(xhr.status);
+        alert(thrownError);
+      }
     });
   });
 });

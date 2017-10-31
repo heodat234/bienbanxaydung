@@ -35,7 +35,7 @@ class Bieumau extends CI_Controller {
 		$data['dulieu'] = unserialize($dulieu->dulieu);
 		$data['ten_bieumau'] = $dulieu->ten;
 		$data['type'] = $dulieu->type_bieumau;
-		
+		// var_dump($data['dulieu']);
 		$this->_data['html_body'] = $this->load->view('page/chitiet_bieumau',$data , TRUE); 
 		$this->load->view('home/master', $this->_data);
 	}
@@ -78,6 +78,7 @@ class Bieumau extends CI_Controller {
 			}else{
 				$a_data["file"] = '';
 			}
+
 			if ($data["type"] == '.xlsx') {
 				$data = $this->readExcel($a_data["file"]);
 				$a_data['type_bieumau'] = "excel";
@@ -126,8 +127,8 @@ class Bieumau extends CI_Controller {
                 }
             }
         }
-        echo("<br>");
-        print_r($array);
+        // echo("<br>");
+        // print_r($array);
         return $array;
     }
 
@@ -156,38 +157,54 @@ class Bieumau extends CI_Controller {
         return $array;
     }
     function edit_bieu_mau(){
-        // var_dump($this->input->post());
-        // var_dump($_FILES);
+       
+        $data = array();
+        $typeFile = "";
+        $idUser = $this->session->userdata('user')['id'];
         $id = $this->input->post('id');
         $a_data['ten'] = $this->input->post('name');
 		$a_data['mota'] = $this->input->post('desc');
 
+
 		if (!empty($_FILES['file_input']['name'])) {
-		$config['upload_path'] = './template/';
-		$config['allowed_types'] = 'xlsx';
-		$config['file_name'] = $_FILES['file_input']['name'];
-		$this->load->library('upload', $config);
-		$this->upload->initialize($config);
+			$config['upload_path'] = './template/'.$idUser;
+			$config['allowed_types'] = 'xlsx|docx';
+			$config['file_name'] = $_FILES['file_input']['name'];
+			$this->load->library('upload', $config);
+			$this->upload->initialize($config);
 			if ($this->upload->do_upload('file_input')) {
+				
 				$uploadData = $this->upload->data();
 				$a_data["file"] = $uploadData['file_name'];
+				$typeFile = $uploadData['file_ext'];
 			} else{
 				$error = $this->upload->display_errors();
-        echo $error;
+	    		echo $error;
 				$a_data["file"] = '';
 			}
 		}else{
 			$a_data["file"] = '';
+
 		}
 
+		
 		if($a_data["file"]=='') array_pop($a_data);
 		else{
-			$data = $this->readExcel($a_data["file"]);
-			$a_data['dulieu'] = serialize($data);
+			if ($typeFile == '.xlsx') {
+				$data = $this->readExcel($a_data["file"]);
+				$a_data['type_bieumau'] = "excel";
+			}else{
+				$data = $this->readWord($a_data["file"]);
+				$a_data['type_bieumau'] = "word";
+			}
 		}
+		
+		
+		$a_data['dulieu'] = serialize($data);
 		$this->Bieumau_model->update_bieumau($id,$a_data);
 
-		echo json_encode($this->Bieumau_model->get_bieumau($id));
+		$Bieumau = $this->Bieumau_model->select_dulieu_id($id);
+		 echo(json_encode($Bieumau->file));
     }
 
     

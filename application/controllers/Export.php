@@ -36,7 +36,6 @@ class export extends CI_Controller {
             $objReader = PHPExcel_IOFactory::createReader('Excel2007');
             $objPHPExcel = $objReader->load('template/'.$id_user.'/'.$file->file.'');
             $objPHPExcel->setActiveSheetIndex(0);
-            unset($dulieu['file']);
             foreach ($dulieu as $dl) {
                 if ($dl['loai']=='file') {
                     $objPHPExcel->getActiveSheet()->setCellValueByColumnAndRow($dl['cot'],$dl['hang'],'');
@@ -69,7 +68,6 @@ class export extends CI_Controller {
         }else{
             $phpWord = new \PhpOffice\PhpWord\PhpWord();
             $document = $phpWord->loadTemplate('template/'.$id_user.'/'.$file->file.'');
-            unset($dulieu['file']);
             foreach ($dulieu as $dl) {
                 if ($dl['loai'] == "file") {
                     $document->setImg($dl['search'], [
@@ -92,9 +90,9 @@ class export extends CI_Controller {
     {
         $fileOffice = array();
         $id = $this->session->userdata('user')['id'];
-        $data = $this->Bienban_model->select_bienban($id);
+        $data = $this->Bienban_model->select_bienban_idUser($id);
         foreach ($data as $da) {
-            $dulieu = $this->Bienban_model->get_dulieu_id($da->id);
+            $dulieu = $this->Bienban_model->get_bienban($da->id);
             $filename = stripUnicode($dulieu->ten_bienban);
             $dulieu = unserialize($dulieu->dulieu);
             $file = $this->Bienban_model->filename_id($da->id);
@@ -103,7 +101,6 @@ class export extends CI_Controller {
                 $objReader = PHPExcel_IOFactory::createReader('Excel2007');
                 $objPHPExcel = $objReader->load('template/'.$id.'/'.$file->file.'');
                 $objPHPExcel->setActiveSheetIndex(0);
-                unset($dulieu['file']);
                 foreach ($dulieu as $dl) {
                     if ($dl['loai']=='file') {
                         $objPHPExcel->getActiveSheet()->setCellValueByColumnAndRow($dl['cot'],$dl['hang'],'');
@@ -127,9 +124,13 @@ class export extends CI_Controller {
             }else{
                 $phpWord = new \PhpOffice\PhpWord\PhpWord();
                 $document = $phpWord->loadTemplate('template/'.$id.'/'.$file->file.'');
-                unset($dulieu['file']);
                 foreach ($dulieu as $dl) {
-                    
+                    if ($dl['loai'] == "file") {
+                        $document->setImg($dl['search'], [
+                          "src"=>'images/'.$dl[0],
+                          "swh"=>"200"
+                        ]);
+                    }
                     $document->setValue($dl['search'],$dl[0]);
                 }
                 //save file
